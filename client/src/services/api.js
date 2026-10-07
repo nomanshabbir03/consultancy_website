@@ -1,6 +1,6 @@
-// Production: the API lives on the same Vercel domain (`/api`), so no variable is required. Only `npm run dev` falls back to the
-// local Express server. Set VITE_API_URL (it is public - never put a secret in a VITE_ variable) to point at a separate API host.
-const API_URL = (import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000/api' : '/api')).replace(/\/$/, '');
+// The API is same-origin (`/api`): Vercel services routes it to the server service in production and `vercel dev`; `npm run dev`
+// proxies it to the local Express server (vite.config.js). VITE_API_URL is public (bundled) - never put a secret in a VITE_ variable.
+const API_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
 
 /** Thin fetch wrapper around the Express API. Throws an Error carrying `status` and `details`. */
 export async function apiRequest(path, { method = 'GET', body, signal } = {}) {

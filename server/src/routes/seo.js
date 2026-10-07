@@ -67,9 +67,19 @@ const robots = (req, res) => {
 
 /** Loads the built SPA shell so article/job pages can be served with their own head tags for crawlers. */
 async function loadShell(origin) {
-  const response = await fetch(`${origin}/index.html`, { signal: AbortSignal.timeout(4000) });
-  if (!response.ok) throw new Error(`index.html ${response.status}`);
-  return response.text();
+  // CLIENT_URL is injected by the Vercel service binding (internal URL of the `client` service); the public origin is the fallback.
+  const sources = [process.env.CLIENT_URL && new URL('index.html', process.env.CLIENT_URL.replace(/\/?$/, '/')).href, `${origin}/index.html`].filter(Boolean);
+  let lastError;
+  for (const url of sources) {
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(4000) });
+      if (response.ok) return response.text();
+      lastError = new Error(`index.html ${response.status}`);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError;
 }
 
 function injectHead(html, { title, description, canonical, image, type, jsonLd }) {

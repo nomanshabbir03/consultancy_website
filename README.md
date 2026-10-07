@@ -149,12 +149,13 @@ Unknown routes return a JSON 404; validation problems return HTTP 400 with `erro
 - The phone field is a plain `tel` input (the original used the intl-tel-input widget).
 
 
-## Deploying to Vercel (frontend + API in one project)
+## Deploying to Vercel (one project, two services)
 
-- **Install:** `npm run install:all` - **Build:** `npm run build` - **Output:** `client/dist` (all set in `vercel.json`).
-- `api/[...path].js` runs the Express app as a serverless function; `vercel.json` rewrites the SPA routes to `index.html`
-  and sends `/sitemap.xml`, `/robots.txt`, `/blog/:slug` and `/career/:slug` through the function (SEO metadata).
-- Environment variables (Project Settings -> Environment Variables): `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (server only),
-  `SITE_URL` (public https URL, no trailing slash). Optional: `CLIENT_ORIGIN` (only for a separate frontend origin),
-  `VITE_API_URL` / `VITE_SITE_URL` (public values). Never prefix a secret with `VITE_`.
+`vercel.json` defines two services in a single Vercel project on one domain:
+
+- `client` (`client/`, Vite) serves the React app and is the catch-all route (its own rewrite falls back to `index.html`).
+- `server` (`server/`, Express, entrypoint `src/app.js`) is public only for `/api/*`, `/sitemap.xml`, `/robots.txt`,
+  `/blog/:slug` and `/career/:slug`. It has a binding to `client` (env `CLIENT_URL`) to read the built `index.html`.
+- Set the Vercel project's Root Directory to this folder (the one containing `vercel.json`). Run everything locally with `vercel dev`.
+- Environment variables: `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (server only), `SITE_URL`. Never prefix a secret with `VITE_`.
 - Résumé uploads are limited to 4 MB because Vercel functions reject request bodies above ~4.5 MB.
