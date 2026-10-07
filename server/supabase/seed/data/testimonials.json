@@ -1,0 +1,65 @@
+[
+  {
+    "author_name": "M Haris",
+    "review": "One of the Best medical billing company in the twin cities.",
+    "rating": 5,
+    "avatar_url": "/assets/pics/google/haris.webp",
+    "avatar_initial": null,
+    "avatar_color": null,
+    "sort_order": 1
+  },
+  {
+    "author_name": "Muhammad Haroon Akhtar",
+    "review": "What I like about Cornerstone Medical Solutions is, you can feel the care and support that they are providing in a very friendly and stress free manner.",
+    "rating": 5,
+    "avatar_url": "/assets/pics/google/haroon.webp",
+    "avatar_initial": null,
+    "avatar_color": null,
+    "sort_order": 2
+  },
+  {
+    "author_name": "Danish Ather",
+    "review": "It is a privilege to serve an organization that has a vision of creating more jobs and changing the dynamics of the industry. They establish an atmosphere of mutual respect, trust, honesty, and dignity.",
+    "rating": 5,
+    "avatar_url": null,
+    "avatar_initial": "d",
+    "avatar_color": "#964B00",
+    "sort_order": 3
+  },
+  {
+    "author_name": "Muzahir Hussain",
+    "review": "Working at Cornerstone Medical Solutions has been an absolute pleasure. The company values its employees, promotes professional growth, and maintains a supportive work environment.",
+    "rating": 5,
+    "avatar_url": "/assets/pics/google/muzahir.webp",
+    "avatar_initial": null,
+    "avatar_color": null,
+    "sort_order": 4
+  },
+  {
+    "author_name": "Explore World & knowledge",
+    "review": "Co-operative staff specially the CEO is so humble and kind. Best company ever. Should be given infinite stars.",
+    "rating": 5,
+    "avatar_url": "/assets/pics/google/explore.webp",
+    "avatar_initial": null,
+    "avatar_color": null,
+    "sort_order": 5
+  },
+  {
+    "author_name": "Fahad Rafique",
+    "review": "24/7 know how to take care of clients and Employees.",
+    "rating": 5,
+    "avatar_url": "/assets/pics/google/fahad.webp",
+    "avatar_initial": null,
+    "avatar_color": null,
+    "sort_order": 6
+  },
+  {
+    "author_name": "Muqaddus Saleem",
+    "review": "Most amazing company I just love it.",
+    "rating": 5,
+    "avatar_url": "/assets/pics/google/saleem.webp",
+    "avatar_initial": null,
+    "avatar_color": null,
+    "sort_order": 7
+  }
+]

@@ -1,0 +1,221 @@
+/* Page / component level rules that the reference site kept in inline <style> blocks. */
+
+/* Hero background image used by inner pages */
+.bg-hero {
+  opacity: 0.6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Home: success-story video thumbnails */
+.thumbnail-btn {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+}
+.thumbnail-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left;
+}
+.video-frame {
+  width: 100%;
+  height: 100%;
+}
+
+/* Blog cards: clamp the excerpt */
+.wrapme {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+  height: 100px;
+}
+.fade-out {
+  background: linear-gradient(transparent, white);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+}
+
+/* Reviews carousel arrows */
+.carousel-arrow-next {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+.carousel-arrow-prev {
+  position: absolute;
+  right: 30px;
+  bottom: 0;
+  z-index: 10;
+}
+
+@keyframes videoFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Tab panel cross-fade (About page solutions tabs) */
+.tab-panel-fade {
+  animation: videoFadeIn 1s linear;
+}
+
+/* About page team gallery */
+.item {
+  height: 780px;
+  width: 200px;
+  position: relative;
+  border-radius: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: all 150ms ease-in-out;
+}
+.item.active {
+  z-index: 1;
+  width: 100%;
+  border: 2px solid #fff;
+}
+.grids.blur {
+  filter: blur(5px);
+  transition: filter 0.4s ease-in-out;
+}
+#preview {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 2000px;
+  text-align: center;
+}
+#preview img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 20px;
+}
+
+/* Portfolio full-size preview (Web Development page) */
+#portfolio-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  overflow: auto;
+}
+#portfolio-preview-image {
+  width: 80%;
+  height: auto;
+  border-radius: 25px;
+  display: block;
+  margin: 25px auto;
+}
+@media only screen and (max-width: 768px) {
+  #portfolio-preview-image {
+    width: 95%;
+    border-radius: 10px;
+  }
+}
+.gradient-text {
+  background: linear-gradient(135deg, #2b3990, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.blur {
+  filter: blur(5px);
+  transition: filter 0.4s ease-in-out;
+}
+
+/* Job detail: description lists + share-icon fan-out (checkbox hack, as on the original) */
+#specific_job-info ul {
+  list-style: disc !important;
+  padding-left: 20px !important;
+}
+#specific_job-info ul li {
+  padding-left: 5px !important;
+}
+.share-btn span {
+  height: 50px;
+  width: 50px;
+  line-height: 60px;
+  font-size: 25px;
+  color: #fff;
+  cursor: pointer;
+}
+.fa-share-alt {
+  color: #00aeef !important;
+}
+.icon-1,
+.icon-2,
+.icon-3,
+.icon-4,
+.icon-5,
+.icon-6 {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  line-height: 60px;
+  font-size: 25px;
+  color: #e9fcf8;
+  cursor: pointer;
+  left: 0 !important;
+  z-index: -1;
+  opacity: 0;
+  transition: 0.6s;
+}
+.share-btn a {
+  transition-delay: 0.4s;
+}
+#click:checked ~ a {
+  z-index: 1;
+  opacity: 1;
+  pointer-events: auto;
+}
+#click:checked ~ .icon-1 { left: 40px !important; transition-delay: 0.2s; z-index: 99; }
+#click:checked ~ .icon-2 { left: -40px !important; transition-delay: 0.2s; z-index: 99; }
+#click:checked ~ .icon-3 { left: 80px !important; transition-delay: 0.4s; z-index: 99; }
+#click:checked ~ .icon-4 { left: -80px !important; transition-delay: 0.4s; z-index: 99; }
+#click:checked ~ .icon-5 { left: 120px !important; transition-delay: 0.6s; z-index: 99; }
+#click:checked ~ .icon-6 { left: -120px !important; transition-delay: 0.6s; z-index: 99; }
+.share-btn input:checked + label,
+input:checked + label {
+  background: transparent !important;
+}
+#click {
+  display: none;
+}
+
+/* Long contact details (e-mail, address) must wrap inside their grid cell instead of widening the page on phones. */
+.footer-contact { min-width: 0; }
+.footer-contact li { min-width: 0; }
+.footer-contact a { overflow-wrap: anywhere; }
+
+/* Row of five tool logos: tighter gap on very small phones so the row fits instead of pushing the page wider. */
+@media (max-width: 380px) {
+  .tool-row { gap: 8px !important; }
+  .tool-row img { min-width: 0; height: auto; }
+}
+
+/* Scroll-in animations (AOS slide/flip) briefly transform elements past the viewport edge; never let that create a horizontal scrollbar. */
+html, body { overflow-x: clip; }

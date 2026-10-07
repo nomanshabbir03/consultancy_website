@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+
+# Environment files (only the *.example files are committed)
+.env
+.env.*
+!.env.example
+
+# Logs & OS / editor noise
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

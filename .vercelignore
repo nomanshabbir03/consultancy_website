@@ -1,0 +1,7 @@
+_unoptimized-originals
+Assets
+server/supabase/seed
+client/dist
+node_modules
+.env*
+!.env.example

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Medical Coding",
+    "slug": "medical-coding",
+    "image_url": "/storage/categoryPics/medical-coding.jpg",
+    "sort_order": 1
+  },
+  {
+    "name": "Medical Billing",
+    "slug": "medical-billing",
+    "image_url": "/storage/categoryPics/medical-billing.jpg",
+    "sort_order": 2
+  },
+  {
+    "name": "Credentialing",
+    "slug": "credentialing",
+    "image_url": "/storage/categoryPics/credentialing.jpg",
+    "sort_order": 3
+  },
+  {
+    "name": "Sales & Marketing",
+    "slug": "sales-and-marketing",
+    "image_url": "/storage/categoryPics/sales-and-marketing.jpg",
+    "sort_order": 4
+  },
+  {
+    "name": "Digital Marketing",
+    "slug": "digital-marketing",
+    "image_url": "/storage/categoryPics/digital-marketing.jpg",
+    "sort_order": 5
+  },
+  {
+    "name": "Business",
+    "slug": "business",
+    "image_url": "/storage/categoryPics/business.jpg",
+    "sort_order": 6
+  },
+  {
+    "name": "BPO",
+    "slug": "bpo",
+    "image_url": "/storage/categoryPics/bpo.jpg",
+    "sort_order": 7
+  },
+  {
+    "name": "Medical Scribing",
+    "slug": "medical-scribing",
+    "image_url": "/storage/categoryPics/medical-scribing.png",
+    "sort_order": 8
+  }
+]

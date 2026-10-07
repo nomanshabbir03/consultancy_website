@@ -1,0 +1,14 @@
+/*
+ * Style cascade mirrors the reference site: Tailwind build output first, then
+ * the small utility sheets, then Font Awesome, Bootstrap (grid helpers) and AOS.
+ */
+@import './vendor/app-Np6_wRSs.css';
+@import './vendor/extra-B0G16hdb.css';
+@import './vendor/partical-kZjbe_hu.css';
+@import './vendor/scroll-Dg2gNZzQ.css';
+@import './vendor/faqs-nkOrNbXj.css';
+@import './vendor/animate-BPXhM9gO.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import './vendor/bootstrap.min.css';
+@import 'aos/dist/aos.css';
+@import './pages.css';

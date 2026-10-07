@@ -1,0 +1,37 @@
+[
+  {
+    "question": "What is the level of experience of the Cornerstone Medical Solutions team?",
+    "answer": "Our expert team possesses over 30 years of collective industry experience (both healthcare and business ventures), and brings a wealth of knowledge and expertise to the table. Our attention to detail and proficiency sets us apart from our competitors. Our goal is to assist you in working more efficiently and taking your business to the next level.",
+    "sort_order": 1
+  },
+  {
+    "question": "What are the advantages of partnering with Cornerstone Medical Solutions?",
+    "answer": "Businesses and healthcare providers can benefit from our streamlined processes, improved operations, and innovative solutions tailored to meet their unique needs by partnering with us.",
+    "sort_order": 2
+  },
+  {
+    "question": "How does Cornerstone Medical Solutions enhance business operations?",
+    "answer": "Cornerstone Medical Solutions streamlines processes and provides expert call center management, medical billing, and digital marketing support to help businesses improve their operations. This enables them to focus on their core operations and increase their bottom line.",
+    "sort_order": 3
+  },
+  {
+    "question": "How does Cornerstone Medical Solutions ensure the confidentiality and security of client data?",
+    "answer": "We take the confidentiality and security of client data very seriously. We use advanced technology and security protocols to safeguard client data, and our staff is trained in data protection best practices. We also have strict confidentiality agreements in place to ensure that client data is protected at all times.",
+    "sort_order": 4
+  },
+  {
+    "question": "Do you provide references or case studies?",
+    "answer": "Yes, we take pride in the results we have delivered for our clients, and we would be delighted to provide references and case studies upon request.",
+    "sort_order": 5
+  },
+  {
+    "question": "How do you measure success?",
+    "answer": "As a company, we measure our success by our clients satisfaction and the results we deliver.",
+    "sort_order": 6
+  },
+  {
+    "question": "Do you work with clients located in different regions or countries?",
+    "answer": "We are well-prepared to work with clients in various regions and countries. We communicate and collaborate seamlessly using the latest technology.",
+    "sort_order": 7
+  }
+]
