@@ -1,5 +1,5 @@
 _unoptimized-originals
-Assets
+/Assets
 server/supabase/seed
 client/dist
 client/node_modules
