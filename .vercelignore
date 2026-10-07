@@ -2,6 +2,8 @@ _unoptimized-originals
 Assets
 server/supabase/seed
 client/dist
+client/node_modules
+server/node_modules
 node_modules
 .env*
 !.env.example
