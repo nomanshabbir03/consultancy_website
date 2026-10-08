@@ -14,20 +14,7 @@
     "server": {
       "root": "server",
       "framework": "express",
-      "entrypoint": "src/app.js",
-      "bindings": [
-        {
-          "type": "service",
-          "service": "client",
-          "format": "url",
-          "env": "CLIENT_URL"
-        }
-      ],
-      "functions": {
-        "src/**/*.js": {
-          "maxDuration": 20
-        }
-      }
+      "entrypoint": "src/app.js"
     }
   },
   "rewrites": [
