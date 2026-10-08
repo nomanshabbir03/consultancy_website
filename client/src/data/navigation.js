@@ -65,12 +65,10 @@ export const FOOTER_COLUMNS = [
 ];
 
 export const SOCIAL_LINKS = [
-  {
-    icon: 'fa-linkedin-in',
-    size: 'text-[20px]',
-    href: 'https://www.linkedin.com/company/cornerstone-medical-solutions/home/?viewAsMember=true',
-    label: 'LinkedIn',
-  },
+  { icon: 'fa-linkedin-in', size: 'text-[20px]', href: 'https://www.linkedin.com/company/cornerstone-medical-solutions/home/?viewAsMember=true', label: 'LinkedIn' },
+  { icon: 'fa-instagram', size: 'text-[20px]', href: 'https://www.instagram.com/cornerstonemedicalsolutions/', label: 'Instagram' },
+  { icon: 'fa-facebook-f', size: 'text-[22px]', href: 'https://www.facebook.com/share/1MRG3oxmSe/', label: 'Facebook' },
+  { icon: 'fa-whatsapp', size: 'text-[22px]', href: 'https://wa.me/923330327865', label: 'WhatsApp' },
 ];
 
 export const COMPANY = {

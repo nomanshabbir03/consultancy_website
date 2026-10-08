@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import { getSupabase } from '../config/supabase.js';
 import ApiError from '../utils/ApiError.js';
 import { isUuid, unwrap } from '../utils/db.js';
+import { sendFormEmail } from './mailService.js';
 import { validateBody } from '../utils/validation.js';
 
 export const RESUME_BUCKET = 'resumes';
@@ -114,5 +115,22 @@ export async function submitApplication(idOrSlug, body, file) {
     await supabase.storage.from(RESUME_BUCKET).remove([resumePath]); // no orphaned files
     unwrap({ error });
   }
+  await sendFormEmail({
+    subject: `New job application: ${job.title} - ${values.first_name} ${values.last_name || ''}`.trim(),
+    replyTo: values.email,
+    fields: [
+      ['Position', job.title],
+      ['Name', `${values.first_name} ${values.last_name || ''}`.trim()],
+      ['Email', values.email],
+      ['Phone', values.phone_number],
+      ['Gender', values.gender],
+      ['CNIC', values.cnic],
+      ['City', values.city],
+      ['Address', values.address],
+      ['Current salary', values.current_salary],
+      ['Expected salary', values.expected_salary],
+    ],
+    attachments: [{ filename: `resume-${values.first_name}.${ext}`.replace(/[^\w.-]/g, '_'), content: file.buffer, contentType: file.mimetype }],
+  });
   return { message: 'Your application has been submitted successfully. Thank you for applying.' };
 }

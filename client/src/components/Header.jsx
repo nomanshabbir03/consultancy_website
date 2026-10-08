@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BUSINESS_MENU, MAIN_NAV } from '../data/navigation';
 import useScrolledPast from '../hooks/useScrolledPast';
@@ -44,52 +44,40 @@ function BusinessDropdown({ open, onToggle }) {
         <span>Our Business</span>
         <Chevron className={`nav-icon ${open ? 'rotate-180' : ''}`} />
       </button>
-      <div
-        className={`nav-section ${open ? '' : 'hidden'} transition-all ease-in-out duration-1000 absolute top-[50%] left-1/2 transform -translate-x-1/2 translate-y-[5%] mt-6 rounded-md shadow-lg bg-[#fff]`}
-      >
-        <div className="flex">
-          <div className="bg-[#2B3990] py-[65px] px-[30px]">
-            <img src="/assets/pics/company_logo.jpeg" alt="Cornerstone Medical Solutions" className="m-auto w-[130px] rounded-md" />
-            <p className="text-[16px] 2xl:text-[18px] text-regular text-white text-center">
-              Building a<br />
-              Better Business
-              <br />
-              World
-            </p>
-          </div>
-          <div className="bg-[#fff] w-[780px] py-[26px] px-[50px] flex gap-[48px] m-auto" id="innerHead">
-            {BUSINESS_MENU.map((group) => (
-              <div key={group.to} className="py-1 bg-white rounded-md shadow-xs">
-                <Link
-                  to={group.to}
-                  className="flex flex-row items-center py-2 text-[16px] 2xl:text-[18px] text-[#001017] hover:text-[#00aeef] hover:no-underline font-600"
-                >
-                  {group.label}
+      <div className={`mega-menu ${open ? '' : 'hidden'}`}>
+        <div className="mega-menu__brand">
+          <img src="/assets/pics/company_logo.png" alt="Cornerstone Medical Solutions" className="mega-menu__logo" />
+          <p className="mega-menu__tagline">
+            Building a<br />
+            Better Business
+            <br />
+            World
+          </p>
+        </div>
+        <div className="mega-menu__links" id="innerHead">
+          {BUSINESS_MENU.map((group) => (
+            <div key={group.to} className="mega-menu__group">
+              <Link to={group.to} className="mega-menu__title hover:text-[#00aeef] hover:no-underline">
+                {group.label}
+              </Link>
+              {group.children.map((child) => (
+                <Link key={child.to} to={child.to} className="mega-menu__link hover:text-[#00aeef] hover:no-underline">
+                  {child.label}
                 </Link>
-                {group.children.map((child) => (
-                  <Link
-                    key={child.to}
-                    to={child.to}
-                    className="flex flex-row items-center py-2 text-[16px] 2xl:text-[18px] text-[#001017] hover:text-[#00aeef] hover:no-underline"
-                  >
-                    {child.label}
-                  </Link>
-                ))}
-              </div>
-            ))}
-          </div>
-          <div className="bg-[#2B3990] flex flex-col justify-center items-center px-[20px]">
-            <p className="text-[16px] 2xl:text-[18px] text-regular text-white text-center pb-[20px]">
-              Message from CEO
-            </p>
-            <Link
-              to="/"
-              className="duration-500 ease-in-out hover:text-[#00aeef] hover:no-underline text-[16px] 2xl:text-[18px] text-regular text-[#fff] text-center pb-[20px]"
-            >
-              Our Team
-            </Link>
-            <p className="text-[16px] 2xl:text-[18px] text-regular text-white text-center pb-[20px]">Events</p>
-          </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="mega-menu__aside">
+          <Link to="/about-us" className="mega-menu__aside-link hover:text-[#00aeef] hover:no-underline">
+            Message from CEO
+          </Link>
+          <Link to="/" className="mega-menu__aside-link hover:text-[#00aeef] hover:no-underline">
+            Our Team
+          </Link>
+          <Link to="/blog" className="mega-menu__aside-link hover:text-[#00aeef] hover:no-underline">
+            Events
+          </Link>
         </div>
       </div>
     </div>
@@ -177,11 +165,15 @@ function MobileMenu() {
 
 /**
  * Site header. With `transparentOnTop` (home page) it starts transparent over the hero and
- * turns white after scrolling 450px, like the reference site.
+ * turns white after scrolling past the hero section.
  */
 export default function Header({ transparentOnTop = false }) {
   const { pathname } = useLocation();
-  const scrolled = useScrolledPast(450);
+  const scrollThreshold = useCallback(
+    () => (transparentOnTop ? document.getElementById('hero-section')?.offsetHeight ?? window.innerHeight : 450),
+    [transparentOnTop],
+  );
+  const scrolled = useScrolledPast(scrollThreshold);
   const [businessOpen, setBusinessOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const businessRef = useRef(null);
@@ -204,14 +196,13 @@ export default function Header({ transparentOnTop = false }) {
 
   const headerStyle = transparentOnTop
     ? {
-        backgroundColor: scrolled ? 'white' : 'rgba(255, 255, 255, 0)',
         transition: 'background-color 0.5s ease',
       }
     : undefined;
 
   return (
     <div
-      className={`fixed w-full z-50 top-0 left-0 ${transparentOnTop ? 'bg-transparent' : 'bg-white'}`}
+      className={`fixed w-full z-50 top-0 left-0 ${overHero ? 'bg-transparent' : 'bg-white'}`}
       id="headerCol"
       style={headerStyle}
     >
@@ -222,9 +213,9 @@ export default function Header({ transparentOnTop = false }) {
               <div data-aos="fade-right">
                 <Link to="/">
                   <img
-                    src="/assets/pics/company_logo.jpeg"
+                    src={overHero ? '/assets/pics/company_logo_white.jpeg' : '/assets/pics/company_logo.png'}
                     alt="Cornerstone Medical Solutions"
-                    className="h-[80px] w-auto rounded-md"
+                    className="h-[80px] w-auto object-contain"
                     width="80"
                     height="80"
                     id="mainLogo"

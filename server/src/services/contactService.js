@@ -1,4 +1,5 @@
 import { getSupabase } from '../config/supabase.js';
+import { sendFormEmail } from './mailService.js';
 import { unwrap } from '../utils/db.js';
 import { validateBody } from '../utils/validation.js';
 
@@ -25,5 +26,17 @@ export async function submitInquiry(body) {
       message: v.description,
     })
   );
+  await sendFormEmail({
+    subject: `New website inquiry from ${v.name}${v.services ? ` (${v.services})` : ''}`,
+    replyTo: v.email,
+    fields: [
+      ['Service', v.services],
+      ['Name', v.name],
+      ['Email', v.email],
+      ['Phone', v.number],
+      ['Subject', v.subject],
+      ['Message', v.description],
+    ],
+  });
   return { message: 'Thank you! Your message has been received and we will get back to you soon.' };
 }

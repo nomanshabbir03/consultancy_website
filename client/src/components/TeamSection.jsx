@@ -1,4 +1,5 @@
 import useApiData from '../hooks/useApiData';
+import { fallbackPhoto } from '../utils/avatarFallback';
 import { fetchTeam } from '../services/siteContentService';
 
 const AOS = ['fade-right', 'flip-right', 'fade-right'];
@@ -12,18 +13,28 @@ const SPACERS = [
 ];
 
 function SocialLink({ href, icon }) {
+  if (!href) return null; // only show networks the person actually has
   return (
-    <a href={href || '#'} target="_blank" rel="noopener noreferrer" className={ICON_CLASS} aria-label={icon}>
+    <a href={href} target="_blank" rel="noopener noreferrer" className={ICON_CLASS} aria-label={icon}>
       <i className={`fa-brands ${icon}`} />
     </a>
   );
 }
 
 function TeamCard({ member, index }) {
+  const isUmer = member.name === 'Umer Rafique';
+  const photo = isUmer ? '/assets/pics/team/umerrafique.jpg' : member.photo;
+
   return (
     <div className="px-[16px] py-4 desktop:py-0 relative" data-aos={AOS[index % AOS.length]}>
       <div className="relative z-30 m-auto w-[160px] h-[160px] flex items-center justify-center bg-[#fff] rounded-full">
-        <img src={member.photo} alt={member.name} className="w-[150px] h-[150px] rounded-full" />
+        <img
+          src={photo}
+          alt={member.name}
+          onError={fallbackPhoto(member.name)}
+          className="w-[150px] h-[150px] rounded-full object-cover"
+          style={isUmer ? { objectPosition: 'center top' } : undefined}
+        />
       </div>
       <div className="z-20 text-center bg-[#fff] rounded-[10px] px-[15px] relative -mt-16 py-[15px] border-[#fff] border-[2px]">
         <div className="border-[1px] border-[#000] pt-[60px]">

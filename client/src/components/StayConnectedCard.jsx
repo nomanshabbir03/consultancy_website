@@ -1,6 +1,4 @@
-const SOCIALS = [
-  { icon: 'fa-linkedin-in', size: 'text-[20px]', href: 'https://www.linkedin.com/company/cornerstone-medical-solutions/home/?viewAsMember=true', label: 'LinkedIn' },
-];
+import { SOCIAL_LINKS } from '../data/navigation';
 
 /** Logo + "Stay Connected" social card used in the blog and job sidebars. */
 export default function StayConnectedCard({ className = 'mt-4' }) {
@@ -8,7 +6,7 @@ export default function StayConnectedCard({ className = 'mt-4' }) {
     <div className={`p-3 ${className} shadow-md border-[1px] border-[#e0e0e0]`}>
       <div className="flex flex-col w-full items-center gap-5 py-3">
         <img
-          src="/assets/pics/company_logo.jpeg"
+          src="/assets/pics/company_logo.png"
           alt="Cornerstone Medical Solutions"
           className="w-[120px] xl:w-[200px] 2xl:w-[250px]"
           data-aos="fade-right"
@@ -17,7 +15,7 @@ export default function StayConnectedCard({ className = 'mt-4' }) {
           Stay Connected
         </p>
         <div className="flex justify-center gap-[25px] sm:w-[250px]">
-          {SOCIALS.map((s) => (
+          {SOCIAL_LINKS.map((s) => (
             <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
               <i className={`fa-brands ${s.icon} ${s.size} text-[#001017] hover:text-[#00aeef]`} />
             </a>

@@ -21,6 +21,15 @@ const env = {
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean),
+  // Form notifications: every contact / application submission is emailed to MAIL_TO.
+  mail: {
+    host: process.env.SMTP_HOST || '',
+    port: Number(process.env.SMTP_PORT) || 465,
+    user: process.env.SMTP_USER || '',
+    pass: process.env.SMTP_PASS || '',
+    to: process.env.MAIL_TO || 'cmsolutions180@gmail.com',
+    from: process.env.MAIL_FROM || process.env.SMTP_USER || 'cmsolutions180@gmail.com',
+  },
   supabase: {
     url: process.env.SUPABASE_URL || '',
     // Server-side secret key: bypasses RLS, so it must never reach the browser.

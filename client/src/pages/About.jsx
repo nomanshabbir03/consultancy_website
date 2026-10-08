@@ -3,6 +3,7 @@ import ContactSection from '../components/ContactSection';
 import CtaBanner from '../components/CtaBanner';
 import CustomizedSolutions from '../components/CustomizedSolutions';
 import StatCounter from '../components/StatCounter';
+import { fallbackPhoto } from '../utils/avatarFallback';
 import TeamGallery from '../components/TeamGallery';
 
 export default function About() {
@@ -118,7 +119,39 @@ export default function About() {
                   className="text-[18px] sm:text-[26px] text-left sm:leading-[30px] text-[#001017]"
                   data-aos="fade-out"
                 >
-                  Naeem Abbas <span className="text-[12px] sm:text-[18px]">{'- Founder & CEO'}</span>
+                  Naeem Abbas <span className="text-[12px] sm:text-[18px]">{'- Co-founder'}</span>
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 xl:grid-cols-9 gap-[50px] leader-row-second">
+              <div className="xl:col-span-3 w-full border-[#00aeef] border-[3px] mx-auto" data-aos="flip-right">
+                <img
+                  src="/assets/pics/team/umerrafique.jpg"
+                  alt="Umer Rafique, Co-founder of Cornerstone Medical Solutions"
+                  className="mx-auto w-full"
+                  onError={fallbackPhoto('Umer Rafique')}
+                />
+              </div>
+              <div className="xl:col-span-6 my-auto">
+                <p className="text-[24px] sm:text-[40px] font-600 text-[#001017] " data-aos="fade-right">
+                  Building Trust, <span className="text-[#00aeef]">Delivering Results</span>
+                </p>
+                <p
+                  className="text-[14px] sm:text-[18px] text-left sm:leading-[30px] text-[#001017] pb-[35px]"
+                  data-aos="fade-down"
+                >
+                  As a Co-founder of Cornerstone Medical Solutions, Umer Rafique works alongside the leadership team to
+                  shape the company's direction and keep its promise to clients: your revenue, our responsibility. He
+                  focuses on strong operations, dependable service delivery and long-term client relationships, so that
+                  healthcare practices and growing businesses can hand off their billing, support and digital needs
+                  with confidence. His commitment to quality, transparency and accountability guides how our teams work
+                  every day.
+                </p>
+                <p
+                  className="text-[18px] sm:text-[26px] text-left sm:leading-[30px] text-[#001017]"
+                  data-aos="fade-out"
+                >
+                  Umer Rafique <span className="text-[12px] sm:text-[18px]">{'- Co-founder'}</span>
                 </p>
               </div>
             </div>
@@ -245,7 +278,7 @@ export default function About() {
                 <div className="m-auto text-center" data-aos="flip-right">
                   <StatCounter
                     className="text-[30px] md:text-[40px] my-0 font-600 text-[#fff]"
-                    target={2000}
+                    target={150}
                     suffix="+"
                   />
                   <p className="text-[16px] md:text-[18px] my-0 text-[#fff]">Employees</p>
@@ -261,7 +294,7 @@ export default function About() {
                 <div className="m-auto text-center" data-aos="flip-right">
                   <StatCounter
                     className="text-[30px] md:text-[40px] my-0 font-600 text-[#fff]"
-                    target={1500}
+                    target={1000}
                     suffix="+"
                   />
                   <p className="text-[16px] md:text-[18px] my-0 text-[#fff]">Clients Trust Us</p>

@@ -1,14 +1,21 @@
 import { useEffect, useState } from 'react';
 
-/** True once the window has scrolled `offset` pixels or more. */
+/** True once the window has scrolled past a fixed or dynamically measured offset. */
 export default function useScrolledPast(offset) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY >= offset);
+    const onScroll = () => {
+      const threshold = typeof offset === 'function' ? offset() : offset;
+      setScrolled(window.scrollY >= threshold);
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, [offset]);
 
   return scrolled;

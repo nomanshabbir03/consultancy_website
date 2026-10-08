@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
+import { SOCIAL_LINKS } from '../data/navigation';
 
-const FAN_LINKS = [
-  { id: 'linkedin-share', cls: 'icon-1', href: 'https://www.linkedin.com/company/cornerstone-medical-solutions/home/?viewAsMember=true', icon: 'fab fa-linkedin' },
-];
+const FAN_LINKS = SOCIAL_LINKS.map((link, i) => ({
+  id: `${link.label.toLowerCase()}-share`,
+  cls: `icon-${i + 1}`,
+  href: link.href,
+  icon: `fab ${link.icon}`,
+}));
 
 /** Share icon that fans out the social links when toggled (pure CSS checkbox, as on the original). */
 export function ShareFan() {

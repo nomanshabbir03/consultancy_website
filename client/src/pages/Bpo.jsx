@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import ContactForm from '../components/ContactForm';
 import CtaBanner from '../components/CtaBanner';
 
 export default function Bpo() {
@@ -527,85 +528,7 @@ export default function Bpo() {
           <div className="col-span-12 px-[20px] sm:col-span-8 desktop:col-span-4 w-full desktop:pr-16 desktop:border-r-[1px] border-[#e0e0e0]">
             <div className="py-[70px] desktop:py-[100px]">
               <div className="pt-[30px] sm:pt-[50px]">
-                <link
-                  rel="stylesheet"
-                  href="../cdn.jsdelivr.net/npm/intl-tel-input%4019.5.6/build/css/intlTelInput.css"
-                />
-                <form
-                  method="POST"
-                  action="https://24-7consultancy.pk/contact-form"
-                  encType="multipart/form-data"
-                  className="w-full"
-                >
-                  <input
-                    type="hidden"
-                    name="_token"
-                    value="FBZVvnQkexEjbZwUKpMKznxLV4Aw6GX2mfKcl4vE"
-                    autoComplete="off"
-                  />
-                  <div>
-                    <select
-                      className="w-full border-[#e0e0e0] border-[1px] p-3 text-[#001017]"
-                      name="services"
-                      id="frm-services"
-                    >
-                      <option value="">Please select service ...</option>
-                      <option value="BPO">BPO</option>
-                      <option value="Healthcare">Healthcare</option>
-                      <option value="Digital Marketing">Digital Marketing</option>
-                      <option value="Software Development">Software Development</option>
-                    </select>
-                  </div>
-                  <div className="w-full flex gap-3 my-[20px]">
-                    <input
-                      className="w-full border-[#e0e0e0] border-[1px] p-3 text-[#001017]"
-                      type="text"
-                      name="name"
-                      placeholder="Your Name ..."
-                    />
-                    <input
-                      className="w-full border-[#e0e0e0] border-[1px] p-3 text-[#001017]"
-                      type="text"
-                      name="email"
-                      placeholder="Your Email ..."
-                    />
-                  </div>
-                  <div className="w-full grid grid-cols-2 gap-3 my-[20px]">
-                    <input
-                      className="w-full border-[#e0e0e0] border-[1px] py-3 text-[#001017]"
-                      id="phone"
-                      type="tel"
-                      name="number"
-                    />
-                    <input
-                      className="w-full border-[#e0e0e0] border-[1px] p-3 text-[#001017]"
-                      type="text"
-                      name="subject"
-                      placeholder="Enter Subject ..."
-                    />
-                  </div>
-                  <div className="w-full grid grid-cols-1 gap-3 my-[20px]">
-                    <textarea
-                      className="w-full border-[#e0e0e0] border-[1px] p-3 text-[#001017]"
-                      name="description"
-                      id="description"
-                      cols="30"
-                      rows="5"
-                      placeholder="Project Description"
-                    ></textarea>
-                  </div>
-                  <div>
-                    <button
-                      type="submit"
-                      className="relative flex gap-4 items-center justify-center px-[20px] h-[49px] border-[2px] border-[#2b3990] transform hover:scale-90 transition duration-500 ease-in-out hover:no-underline hover:text-[#00aeef] text-[#2b3990] text-[16px] 2xl:text-[18px]"
-                    >
-                      <p className="my-auto h-7">Submit</p>
-                      <p className="text-xl my-auto">
-                        <i className="fa-solid fa-arrow-right"></i>
-                      </p>
-                    </button>
-                  </div>
-                </form>
+                <ContactForm id="bpo-contact-form" />
               </div>
             </div>
           </div>

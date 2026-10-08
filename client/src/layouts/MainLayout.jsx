@@ -13,7 +13,7 @@ import useDocumentMeta from '../hooks/useDocumentMeta';
 export default function MainLayout({ children, meta, transparentHeader = false, footerBackground = '#fff' }) {
   const { pathname } = useLocation();
   useAos();
-  useDocumentMeta(meta ? { image: '/assets/pics/company_logo.jpeg', ...meta } : {});
+  useDocumentMeta(meta ? { image: '/assets/pics/company_logo.png', ...meta } : {});
 
   useEffect(() => {
     window.scrollTo(0, 0);

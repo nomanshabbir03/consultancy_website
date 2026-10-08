@@ -1,23 +1,53 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-/** Counts from 0 to `target` in ~1s (100 steps, 10ms apart) when mounted, then shows target + suffix. */
+const DURATION_MS = 2000;
+
+/** Counts from 0 up to `target` (eased) once the number scrolls into view, then shows target + suffix. */
 export default function StatCounter({ target, suffix = '+', className = '' }) {
-  const [display, setDisplay] = useState('0');
+  const ref = useRef(null);
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
-    let count = 0;
-    const step = target / 100;
-    const timer = setInterval(() => {
-      count += step;
-      if (count >= target) {
-        clearInterval(timer);
-        setDisplay(`${target}${suffix}`);
-      } else {
-        setDisplay(`${Math.ceil(count)}${suffix}`);
-      }
-    }, 10);
-    return () => clearInterval(timer);
-  }, [target, suffix]);
+    const node = ref.current;
+    if (!node) return undefined;
+    let timer;
+    let started = false;
 
-  return <p className={`counter ${className}`}>{display}</p>;
+    const run = () => {
+      const begin = Date.now();
+      timer = setInterval(() => {
+        const progress = Math.min((Date.now() - begin) / DURATION_MS, 1);
+        const eased = 1 - (1 - progress) ** 3;
+        setValue(Math.round(target * eased));
+        if (progress >= 1) clearInterval(timer);
+      }, 30);
+    };
+
+    if (typeof IntersectionObserver === 'undefined') {
+      run();
+      return () => clearInterval(timer);
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started) {
+          started = true;
+          observer.disconnect();
+          run();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+      clearInterval(timer);
+    };
+  }, [target]);
+
+  return (
+    <p ref={ref} className={`counter ${className}`}>
+      {value}
+      {suffix}
+    </p>
+  );
 }

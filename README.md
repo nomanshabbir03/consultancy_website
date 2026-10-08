@@ -157,5 +157,5 @@ Unknown routes return a JSON 404; validation problems return HTTP 400 with `erro
 - `server` (`server/`, Express, entrypoint `src/app.js`) is public only for `/api/*`, `/sitemap.xml`, `/robots.txt`,
   `/blog/:slug` and `/career/:slug`. It has a binding to `client` (env `CLIENT_URL`) to read the built `index.html`.
 - Set the Vercel project's Root Directory to this folder (the one containing `vercel.json`). Run everything locally with `vercel dev`.
-- Environment variables: `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (server only), `SITE_URL`. Never prefix a secret with `VITE_`.
+- Environment variables: `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (server only), `SITE_URL`, plus `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` (form emails to cmsolutions180@gmail.com; Gmail needs an App password). Never prefix a secret with `VITE_`.
 - Résumé uploads are limited to 4 MB because Vercel functions reject request bodies above ~4.5 MB.
