@@ -4,6 +4,7 @@ import { applyForJob, getJob, listJobs } from '../controllers/careerController.j
 import { createInquiry } from '../controllers/contactController.js';
 import { applyLimiter, contactLimiter } from '../middleware/security.js';
 import resumeUpload from '../middleware/resumeUpload.js';
+import adminRoutes from './admin.js';
 import { getHealth } from '../controllers/healthController.js';
 import {
   getTestimonials,
@@ -15,6 +16,9 @@ import {
 const router = Router();
 
 router.get('/health', getHealth);
+
+// Private admin API (own authentication, see routes/admin.js).
+router.use('/admin', adminRoutes);
 
 router.post('/contact', contactLimiter, createInquiry);
 

@@ -8,6 +8,7 @@ import useApiData from '../hooks/useApiData';
 import useDocumentMeta from '../hooks/useDocumentMeta';
 import { fetchJob } from '../services/careerService';
 import { formatDate } from '../utils/formatDate';
+import { safeHtml } from '../utils/safeHtml';
 import NotFound from './NotFound';
 
 function InfoRow({ label, value }) {
@@ -116,7 +117,7 @@ export default function CareerDetail() {
             <div className="m-auto grid grid-cols-1 xl:grid-cols-7 gap-[50px]">
               <div
                 className="border-[1px] shadow-md border-[#e0e0e0] p-4 xl:col-span-5"
-                dangerouslySetInnerHTML={{ __html: job.description }}
+                dangerouslySetInnerHTML={{ __html: safeHtml(job.description) }}
               />
               <div className="xl:col-span-2">
                 <div className="border-[1px] shadow-md border-[#e0e0e0] p-4">

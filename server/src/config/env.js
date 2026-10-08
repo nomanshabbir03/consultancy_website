@@ -32,6 +32,8 @@ const env = {
   },
   supabase: {
     url: process.env.SUPABASE_URL || '',
+    // Public (publishable) key: used server-side only to verify admin e-mail/password logins through Supabase Auth.
+    publishableKey: process.env.SUPABASE_PUBLISHABLE_KEY || '',
     // Server-side secret key: bypasses RLS, so it must never reach the browser.
     secretKey: process.env.SUPABASE_SECRET_KEY || '',
   },

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { formatDate } from '../utils/formatDate';
+import { safeHtml } from '../utils/safeHtml';
 
 export default function BlogCard({ post }) {
   const href = `/blog/${post.slug}`;
@@ -31,7 +32,7 @@ export default function BlogCard({ post }) {
             <p className="text-[14px] text-[#2b3990]">{post.category}</p>
           </div>
           {/* The start of the article, clamped to three lines by .wrapme (as on the original). */}
-          <div className="wrapme" dangerouslySetInnerHTML={{ __html: post.excerptHtml }} />
+          <div className="wrapme" dangerouslySetInnerHTML={{ __html: safeHtml(post.excerptHtml) }} />
         </div>
       </Link>
       <div className="px-[20px] pb-[20px]">

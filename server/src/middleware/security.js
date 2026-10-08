@@ -39,3 +39,15 @@ export const readLimiter = limiter({
   limit: 240,
   message: 'Too many requests. Please slow down.',
 });
+
+export const loginLimiter = limiter({
+  windowMs: 15 * 60 * 1000,
+  limit: 15,
+  message: 'Too many attempts. Please try again in a few minutes.',
+});
+
+export const adminLimiter = limiter({
+  windowMs: 60 * 1000,
+  limit: 300,
+  message: 'Too many requests. Please slow down.',
+});

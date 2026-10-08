@@ -1,6 +1,6 @@
 // The API is same-origin (`/api`): Vercel services routes it to the server service in production and `vercel dev`; `npm run dev`
 // proxies it to the local Express server (vite.config.js). VITE_API_URL is public (bundled) - never put a secret in a VITE_ variable.
-const API_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
+export const API_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
 
 /** Thin fetch wrapper around the Express API. Throws an Error carrying `status` and `details`. */
 export async function apiRequest(path, { method = 'GET', body, signal } = {}) {

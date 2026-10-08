@@ -1,11 +1,13 @@
 import { Link, useParams } from 'react-router-dom';
 import ApiState from '../components/ApiState';
+import BlogCard from '../components/BlogCard';
 import BlogSidebar from '../components/BlogSidebar';
 import TileStrip from '../components/TileStrip';
 import useApiData from '../hooks/useApiData';
 import useDocumentMeta from '../hooks/useDocumentMeta';
 import { fetchBlogCategories, fetchBlogPost, fetchBlogPosts } from '../services/blogService';
 import { formatDate } from '../utils/formatDate';
+import { safeHtml } from '../utils/safeHtml';
 import NotFound from './NotFound';
 
 const RECENT_POSTS = 5;
@@ -97,9 +99,21 @@ export default function BlogPost() {
                   {formatDate(post.publishedAt)}
                 </p>
               </div>
-              <div className="p-4 text-left" dangerouslySetInnerHTML={{ __html: post.content }} />
+              <div className="p-4 text-left" dangerouslySetInnerHTML={{ __html: safeHtml(post.content) }} />
             </div>
             <BlogSidebar recent={recent?.data} categories={categories?.data} author={post.author} />
+          </div>
+        )}
+        {post?.related?.length > 0 && (
+          <div className="px-2 md:px-0 pt-[60px] pb-[40px]" id="related-articles">
+            <p className="text-[24px] sm:text-[36px] font-600 text-[#001017] my-0" data-aos="fade-right">
+              Related <span className="text-[#00aeef]">Articles</span>
+            </p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-[20px] pt-[30px]">
+              {post.related.map((item) => (
+                <BlogCard key={item.slug} post={item} />
+              ))}
+            </div>
           </div>
         )}
       </div>

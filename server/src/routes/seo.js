@@ -62,7 +62,7 @@ const robots = (req, res) => {
   res
     .type('text/plain')
     .set('Cache-Control', 'public, s-maxage=86400')
-    .send(`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${siteOrigin(req)}/sitemap.xml\n`);
+    .send(`User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /admin\n\nSitemap: ${siteOrigin(req)}/sitemap.xml\n`);
 };
 
 /** Loads the built SPA shell so article/job pages can be served with their own head tags for crawlers. */
