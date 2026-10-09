@@ -25,7 +25,7 @@ function SocialLink({ href, icon }) {
 
 function TeamCard({ member, index }) {
   const isUmer = member.name === 'Umer Rafique';
-  const photo = member.photo;
+  const photo = isUmer ? '/assets/pics/team/umerrafiqueblack.jpeg' : member.photo;
 
   return (
     <div className="px-[16px] py-4 desktop:py-0 relative" data-aos={AOS[index % AOS.length]}>

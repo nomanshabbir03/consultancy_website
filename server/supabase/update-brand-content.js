@@ -51,13 +51,14 @@ const team = [
       name: 'Umer Rafique',
       role: 'Co-founder',
       bio: "Umer Rafique is a Co-founder of Cornerstone Medical Solutions, helping lead the company's growth, operations and client relationships.",
-      photo_url: '/assets/pics/team/umerrafiqueupdatedbg.png',
+      photo_url: '/assets/pics/team/umerrafiqueblack.jpeg',
       sort_order: 2,
       facebook_url: null,
       instagram_url: null,
       linkedin_url: 'https://www.linkedin.com/in/umer-rafique-925b5326b/',
     },
   },
+  { match: 'Umer Rafique', patch: { photo_url: '/assets/pics/team/umerrafiqueblack.jpeg' } },
 ];
 for (const { match, patch } of team) {
   const { data: found } = await supabase.from('team_members').select('id').eq('name', match);

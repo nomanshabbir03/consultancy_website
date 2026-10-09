@@ -151,9 +151,9 @@ test('leadership team: seed order is Naeem Abbas, Umer Rafique, Huma Naeem and e
   const team = JSON.parse(fs.readFileSync(new URL('../supabase/seed/data/team_members.json', import.meta.url), 'utf8'));
   assert.deepEqual([...team].sort((a, b) => a.sort_order - b.sort_order).map((m) => m.name), ['Naeem Abbas', 'Umer Rafique', 'Huma Naeem']);
   assert.equal(new Set(team.map((m) => m.sort_order)).size, 3);
-  assert.equal(team.find((m) => m.name === 'Umer Rafique').photo_url, '/assets/pics/team/umerrafiqueupdatedbg.png');
+  assert.equal(team.find((m) => m.name === 'Umer Rafique').photo_url, '/assets/pics/team/umerrafiqueblack.jpeg');
   const aboutImage = PAGE_DEFAULTS['about-us'].leaders.people.find((p) => p.name === 'Umer Rafique').image;
-  assert.equal(aboutImage, '/assets/pics/team/umerrafiqueupdatedbg.png');
+  assert.equal(aboutImage, '/assets/pics/team/umerrafiqueblack.jpeg');
   for (const url of [...team.map((m) => m.photo_url), aboutImage]) {
     assert.ok(fs.existsSync(new URL(`../../client/public${url}`, import.meta.url)), `${url} is missing from client/public`);
   }
