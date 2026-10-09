@@ -1,18 +1,22 @@
-const AWARDS = [
+import Accent from '../content/Accent';
+import { useSection } from '../content/SiteContent';
+
+// Cell borders / corner dots belong to the six grid positions (design), the images and links come from the CMS.
+const POSITIONS = [
   {
-    src: '/assets/pics/awards/1.webp',
     cell: 'md:border-b-[1px] md:border-x-[1px]',
     dots: ['-bottom-[4px] -left-[4px]', '-bottom-[4px] -right-[5px]'],
   },
-  { src: '/assets/pics/awards/2.webp', cell: 'md:border-b-[1px] md:border-x-[1px]', dots: ['-bottom-[4px] -right-[5px]'] },
-  { src: '/assets/pics/awards/3.webp', cell: 'md:border-b-[1px] md:border-l-[1px]', dots: [] },
-  { src: '/assets/pics/awards/4.webp', cell: 'md:border-l-[1px]', dots: [] },
-  { src: '/assets/pics/awards/5.webp', cell: 'md:border-x-[1px]', dots: [] },
-  { src: '/assets/pics/awards/6.webp', cell: 'md:border-l-[1px]', dots: [] },
+  { cell: 'md:border-b-[1px] md:border-x-[1px]', dots: ['-bottom-[4px] -right-[5px]'] },
+  { cell: 'md:border-b-[1px] md:border-l-[1px]', dots: [] },
+  { cell: 'md:border-l-[1px]', dots: [] },
+  { cell: 'md:border-x-[1px]', dots: [] },
+  { cell: 'md:border-l-[1px]', dots: [] },
 ];
 
 /** "Achievements & Awards" card with the six award badges. */
 export default function AwardsSection() {
+  const { heading, badges } = useSection('home', 'awards');
   return (
     <div className="bg-[#F0F6FF] relative font-poppins z-30">
       <div className="col-md-8 mx-auto md:mx-[20px]">
@@ -23,13 +27,22 @@ export default function AwardsSection() {
                 className="my-0 text-[24px] sm:text-[40px] sm:leading-[44px] text-[#001017] font-600"
                 data-aos="fade-right"
               >
-                Achievements &amp; <span className="text-[#00aeef]">Awards</span>
+                <Accent text={heading} />
               </p>
             </div>
             <div className="col-span-5 grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-0">
-              {AWARDS.map((award) => (
-                <div key={award.src} className={`relative w-full md:border-[#e0e0e0] ${award.cell}`}>
-                  <img src={award.src} alt="Award" className="w-[150px] m-auto" width="400" height="400" />
+              {badges.slice(0, POSITIONS.length).map((badge, i) => {
+                const award = POSITIONS[i];
+                const image = <img src={badge.image} alt={badge.alt} className="w-[150px] m-auto" width="400" height="400" />;
+                return (
+                <div key={`${badge.image}-${i}`} className={`relative w-full md:border-[#e0e0e0] ${award.cell}`}>
+                  {badge.link ? (
+                    <a href={badge.link} target="_blank" rel="noopener noreferrer">
+                      {image}
+                    </a>
+                  ) : (
+                    image
+                  )}
                   {award.dots.map((position) => (
                     <div
                       key={position}
@@ -37,7 +50,8 @@ export default function AwardsSection() {
                     />
                   ))}
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

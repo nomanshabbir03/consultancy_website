@@ -36,8 +36,22 @@ const OPTIONS = {
   },
 };
 
-/** Removes scripts, event handlers, unsafe URLs and unknown tags/styles from admin-authored HTML before it is stored. */
-export const sanitizeRichText = (html) => sanitizeHtml(String(html ?? ''), OPTIONS);
+// Restricted profile for CMS page content: paragraphs, sub-headings, bold/italic, lists and links only.
+// No inline styles, classes, images, tables or alignment, so content always inherits the site's own typography.
+const BASIC_OPTIONS = {
+  allowedTags: ['p', 'br', 'h2', 'h3', 'h4', 'strong', 'b', 'em', 'i', 'a', 'ul', 'ol', 'li'],
+  allowedAttributes: { a: ['href', 'target', 'rel'] },
+  allowedSchemes: ['http', 'https', 'mailto', 'tel'],
+  allowProtocolRelative: false,
+  transformTags: OPTIONS.transformTags,
+};
+
+/**
+ * Removes scripts, event handlers, unsafe URLs and unknown tags/styles from admin-authored HTML before it is stored.
+ * `profile` 'basic' is the restricted set used by CMS page content; the default keeps the full blog/job profile.
+ */
+export const sanitizeRichText = (html, profile = 'full') =>
+  sanitizeHtml(String(html ?? ''), profile === 'basic' ? BASIC_OPTIONS : OPTIONS);
 
 /** Plain-text version (used for excerpts / meta descriptions). */
 export const stripTags = (html) =>

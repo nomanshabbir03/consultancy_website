@@ -14,6 +14,11 @@ const AdminBlogEditor = lazy(() => import('../admin/pages/AdminBlogEditor'));
 const AdminJobs = lazy(() => import('../admin/pages/AdminJobs'));
 const AdminJobEditor = lazy(() => import('../admin/pages/AdminJobEditor'));
 const AdminMeetings = lazy(() => import('../admin/pages/AdminMeetings'));
+const AdminContentHub = lazy(() => import('../admin/pages/AdminContent').then((m) => ({ default: m.AdminContentHub })));
+const AdminContentPage = lazy(() => import('../admin/pages/AdminContent').then((m) => ({ default: m.AdminContentPage })));
+const AdminSection = lazy(() => import('../admin/pages/AdminSection'));
+const AdminMedia = lazy(() => import('../admin/pages/AdminMedia'));
+const AdminCollection = lazy(() => import('../admin/pages/AdminCollection'));
 const RequireAdmin = lazy(() => import('../admin/AdminAuth').then((m) => ({ default: m.RequireAdmin })));
 
 export default function AppRoutes() {
@@ -43,6 +48,14 @@ export default function AppRoutes() {
               <Route path="jobs/new" element={<AdminJobEditor />} />
               <Route path="jobs/edit/:id" element={<AdminJobEditor />} />
               <Route path="meetings" element={<AdminMeetings />} />
+              <Route path="content" element={<AdminContentHub />} />
+              <Route path="content/:page" element={<AdminContentPage />} />
+              <Route path="content/:page/:key" element={<AdminSection />} />
+              <Route path="media" element={<AdminMedia />} />
+              <Route path="faqs" element={<AdminCollection name="faqs" />} />
+              <Route path="team" element={<AdminCollection name="team" />} />
+              <Route path="testimonials" element={<AdminCollection name="testimonials" />} />
+              <Route path="success-stories" element={<AdminCollection name="success-stories" />} />
             </Route>
           </Route>
         </Route>

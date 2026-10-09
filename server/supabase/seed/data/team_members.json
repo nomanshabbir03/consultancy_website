@@ -10,6 +10,16 @@
     "sort_order": 1
   },
   {
+    "name": "Umer Rafique",
+    "role": "Co-founder",
+    "bio": "Umer Rafique is a Co-founder of Cornerstone Medical Solutions, helping lead the company's growth, operations and client relationships.",
+    "photo_url": "/assets/pics/team/umerrafiqueupdated.jpeg",
+    "facebook_url": null,
+    "instagram_url": null,
+    "linkedin_url": "https://www.linkedin.com/in/umer-rafique-925b5326b/",
+    "sort_order": 2
+  },
+  {
     "name": "Huma Naeem",
     "role": "CFO",
     "bio": "The Chief Financial Officer (CFO) plays a crucial leadership role in Cornerstone Medical Solutions, particularly in financial management and strategic decision-making.",
@@ -17,16 +27,6 @@
     "facebook_url": "https://www.facebook.com/huma.naeemabbas?id=100010226207185",
     "instagram_url": null,
     "linkedin_url": "https://www.linkedin.com/in/huma-naeem-718b352b7",
-    "sort_order": 2
-  },
-  {
-    "name": "Umer Rafique",
-    "role": "Co-founder",
-    "bio": "Umer Rafique is a Co-founder of Cornerstone Medical Solutions, helping lead the company's growth, operations and client relationships.",
-    "photo_url": "/assets/pics/team/umerrafique.jpg",
-    "facebook_url": null,
-    "instagram_url": null,
-    "linkedin_url": "https://www.linkedin.com/in/umer-rafique-925b5326b/",
     "sort_order": 3
   }
 ]

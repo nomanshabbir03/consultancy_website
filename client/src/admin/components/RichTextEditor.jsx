@@ -18,9 +18,11 @@ function Btn({ label, icon, active, disabled, onClick }) {
 
 /**
  * Rich text editor (TipTap) for blog articles and job descriptions. Outputs HTML which the API sanitises again before it is stored.
+ * `basic` is the restricted profile for CMS page content (paragraphs, sub-headings, bold/italic, lists, links - no colours,
+ * alignment, quotes or images), matching what the server keeps for that profile.
  * `images` enables the inline image button (uploads go through the admin API to the project's Supabase storage).
  */
-export default function RichTextEditor({ value, onChange, images = false, placeholder = 'Start writing…' }) {
+export default function RichTextEditor({ value, onChange, images = false, basic = false, placeholder = 'Start writing…' }) {
   const fileRef = useRef(null);
   const [error, setError] = useState('');
 
@@ -101,21 +103,25 @@ export default function RichTextEditor({ value, onChange, images = false, placeh
             <option value="p">Paragraph</option>
             <option value="h2">Heading 2</option>
             <option value="h3">Heading 3</option>
-            <option value="h4">Heading 4</option>
+            {!basic && <option value="h4">Heading 4</option>}
           </select>
           <span className="sep" />
           <Btn label="Bold" icon="fa-bold" active={state.bold} onClick={() => chain().toggleBold().run()} />
           <Btn label="Italic" icon="fa-italic" active={state.italic} onClick={() => chain().toggleItalic().run()} />
-          <Btn label="Underline" icon="fa-underline" active={state.underline} onClick={() => chain().toggleUnderline().run()} />
+          {!basic && <Btn label="Underline" icon="fa-underline" active={state.underline} onClick={() => chain().toggleUnderline().run()} />}
           <span className="sep" />
           <Btn label="Bullet list" icon="fa-list-ul" active={state.bullet} onClick={() => chain().toggleBulletList().run()} />
           <Btn label="Numbered list" icon="fa-list-ol" active={state.ordered} onClick={() => chain().toggleOrderedList().run()} />
-          <Btn label="Blockquote" icon="fa-quote-right" active={state.quote} onClick={() => chain().toggleBlockquote().run()} />
-          <span className="sep" />
-          <Btn label="Align left" icon="fa-align-left" active={state.left} onClick={() => chain().setTextAlign('left').run()} />
-          <Btn label="Align center" icon="fa-align-center" active={state.center} onClick={() => chain().setTextAlign('center').run()} />
-          <Btn label="Align right" icon="fa-align-right" active={state.right} onClick={() => chain().setTextAlign('right').run()} />
-          <Btn label="Justify" icon="fa-align-justify" active={state.justify} onClick={() => chain().setTextAlign('justify').run()} />
+          {!basic && (
+            <>
+              <Btn label="Blockquote" icon="fa-quote-right" active={state.quote} onClick={() => chain().toggleBlockquote().run()} />
+              <span className="sep" />
+              <Btn label="Align left" icon="fa-align-left" active={state.left} onClick={() => chain().setTextAlign('left').run()} />
+              <Btn label="Align center" icon="fa-align-center" active={state.center} onClick={() => chain().setTextAlign('center').run()} />
+              <Btn label="Align right" icon="fa-align-right" active={state.right} onClick={() => chain().setTextAlign('right').run()} />
+              <Btn label="Justify" icon="fa-align-justify" active={state.justify} onClick={() => chain().setTextAlign('justify').run()} />
+            </>
+          )}
           <span className="sep" />
           <Btn label="Link" icon="fa-link" active={state.link} onClick={setLink} />
           {images && <Btn label="Insert image" icon="fa-image" onClick={() => fileRef.current?.click()} />}

@@ -63,6 +63,39 @@ export const adminApi = {
   meetings: () => adminRequest('/meetings'),
   setMeetingStatus: (id, status) => adminRequest(`/meetings/${id}`, { method: 'PATCH', body: { status } }),
 
+  // ---- CMS
+  cmsSchema: () => adminRequest('/cms/schema'),
+  cmsOverview: () => adminRequest('/cms/overview'),
+  cmsSection: (page, key) => adminRequest(`/cms/sections/${page}/${key}`),
+  saveSection: (page, key, content) => adminRequest(`/cms/sections/${page}/${key}`, { method: 'PUT', body: content }),
+  publishSection: (page, key) => adminRequest(`/cms/sections/${page}/${key}/publish`, { method: 'POST' }),
+  discardSection: (page, key) => adminRequest(`/cms/sections/${page}/${key}/discard`, { method: 'POST' }),
+
+  media: ({ q = '', source = 'all' } = {}) => adminRequest(`/media?${new URLSearchParams({ q, source })}`),
+  uploadMedia: (file, alt = '') => {
+    const form = new FormData();
+    form.append('alt', alt); // text fields first: multer has parsed them by the time the file arrives
+    form.append('file', file);
+    return adminRequest('/media', { method: 'POST', form });
+  },
+  updateMedia: (id, data) => adminRequest(`/media/${id}`, { method: 'PUT', body: data }),
+  replaceMedia: (id, file) => {
+    const form = new FormData();
+    form.append('file', file);
+    return adminRequest(`/media/${id}/replace`, { method: 'POST', form });
+  },
+  mediaUsage: (id) => adminRequest(`/media/${id}/usage`),
+  deleteMedia: (id) => adminRequest(`/media/${id}`, { method: 'DELETE' }),
+  syncMedia: () => adminRequest('/media/sync', { method: 'POST' }),
+
+  items: (name) => adminRequest(`/collections/${name}`),
+  item: (name, id) => adminRequest(`/collections/${name}/${id}`),
+  createItem: (name, data) => adminRequest(`/collections/${name}`, { method: 'POST', body: data }),
+  updateItem: (name, id, data) => adminRequest(`/collections/${name}/${id}`, { method: 'PUT', body: data }),
+  setItemVisible: (name, id, visible) => adminRequest(`/collections/${name}/${id}/visible`, { method: 'PATCH', body: { visible } }),
+  deleteItem: (name, id) => adminRequest(`/collections/${name}/${id}`, { method: 'DELETE' }),
+  reorderItems: (name, ids) => adminRequest(`/collections/${name}/order`, { method: 'PUT', body: { ids } }),
+
   uploadImage: (file) => {
     const form = new FormData();
     form.append('file', file);

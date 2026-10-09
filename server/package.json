@@ -7,7 +7,11 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "db:seed": "node supabase/seed/seed.js"
+    "db:seed": "node supabase/seed/seed.js",
+    "test": "node --experimental-test-module-mocks --test test/cms.test.js test/cms.integration.test.js test/service-pages.test.js test/service-pages.integration.test.js",
+    "db:seed-media": "node supabase/seed/cms-media.js",
+    "cms:sync": "node scripts/sync-page-defaults.mjs",
+    "cms:gen": "node scripts/gen-service-pages.mjs --src <dir-with-the-original-pages>"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

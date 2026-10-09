@@ -1,12 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BUSINESS_MENU, MAIN_NAV } from '../data/navigation';
+import { useSiteContent } from '../content/SiteContent';
 import useScrolledPast from '../hooks/useScrolledPast';
 
 const DESKTOP_LINK =
   'relative flex flex-row items-center text-[16px] 2xl:text-[18px] hover:text-[#00aeef] hover:no-underline';
 const MOBILE_LINK =
   'flex flex-row items-center px-3 py-2 mt-1 text-base font-medium text-[#001017] hover:text-[#00aeef] hover:no-underline';
+
+// Per-link animation / active-dot position, kept in code so editing the navigation cannot change the header's look.
+const NAV_STYLE = {
+  '/': { aos: 'fade-up', dotLeft: 'left-[24%]' },
+  '/about-us': { aos: 'fade-down', dotLeft: 'left-[24%]' },
+  '/blog': { aos: 'fade-up', dotLeft: 'left-[22%]' },
+  '/career': { aos: 'fade-down', dotLeft: 'left-[24%]' },
+  '/contact-us': { aos: 'flip-right', dotLeft: 'left-[42%]' },
+};
+const NAV_AOS = ['fade-up', 'fade-down', 'flip-right'];
+const navStyle = (item, index) => NAV_STYLE[item.to] ?? { aos: NAV_AOS[index % NAV_AOS.length], dotLeft: 'left-[24%]' };
 
 function isActive(item, pathname) {
   if (!item.to) return false;
@@ -31,7 +42,7 @@ function Chevron({ className = '' }) {
   );
 }
 
-function BusinessDropdown({ open, onToggle }) {
+function BusinessDropdown({ open, onToggle, navbar }) {
   return (
     <div>
       <button
@@ -46,22 +57,24 @@ function BusinessDropdown({ open, onToggle }) {
       </button>
       <div className={`mega-menu ${open ? '' : 'hidden'}`}>
         <div className="mega-menu__brand">
-          <img src="/assets/pics/company_logo.png" alt="Cornerstone Medical Solutions" className="mega-menu__logo" />
+          <img src={navbar.logo} alt={navbar.logoAlt} className="mega-menu__logo" />
           <p className="mega-menu__tagline">
-            Building a<br />
-            Better Business
-            <br />
-            World
+            {navbar.menuTagline.split('\n').map((line, i) => (
+              <Fragment key={i}>
+                {i > 0 && <br />}
+                {line}
+              </Fragment>
+            ))}
           </p>
         </div>
         <div className="mega-menu__links" id="innerHead">
-          {BUSINESS_MENU.map((group) => (
-            <div key={group.to} className="mega-menu__group">
+          {navbar.menuGroups.map((group, g) => (
+            <div key={`${group.label}-${g}`} className="mega-menu__group">
               <Link to={group.to} className="mega-menu__title hover:text-[#00aeef] hover:no-underline">
                 {group.label}
               </Link>
-              {group.children.map((child) => (
-                <Link key={child.to} to={child.to} className="mega-menu__link hover:text-[#00aeef] hover:no-underline">
+              {group.children.map((child, c) => (
+                <Link key={`${child.to}-${c}`} to={child.to} className="mega-menu__link hover:text-[#00aeef] hover:no-underline">
                   {child.label}
                 </Link>
               ))}
@@ -69,15 +82,11 @@ function BusinessDropdown({ open, onToggle }) {
           ))}
         </div>
         <div className="mega-menu__aside">
-          <Link to="/about-us" className="mega-menu__aside-link hover:text-[#00aeef] hover:no-underline">
-            Message from CEO
-          </Link>
-          <Link to="/" className="mega-menu__aside-link hover:text-[#00aeef] hover:no-underline">
-            Our Team
-          </Link>
-          <Link to="/blog" className="mega-menu__aside-link hover:text-[#00aeef] hover:no-underline">
-            Events
-          </Link>
+          {navbar.menuAside.map((link, i) => (
+            <Link key={`${link.to}-${i}`} to={link.to} className="mega-menu__aside-link hover:text-[#00aeef] hover:no-underline">
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
     </div>
@@ -103,7 +112,7 @@ function MobileGroup({ group }) {
         <div className="px-2 py-2 mt-2 bg-white rounded-md shadow-xs" role="menu" aria-orientation="vertical">
           {group.children.map((child, i) => (
             <Link
-              key={child.to}
+              key={`${child.to}-${i}`}
               to={child.to}
               className={`flex flex-row items-center px-3 py-2 ${i ? 'mt-1 ' : ''}text-base font-medium text-[#001017] rounded-md hover:text-[#00aeef] hover:no-underline`}
               role="menuitem"
@@ -117,46 +126,37 @@ function MobileGroup({ group }) {
   );
 }
 
-function MobileMenu() {
+function MobileMenu({ navbar }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="mobilemen lg:hidden">
       <div className="col-md-12 px-6 mx-auto bg-[#fff] absolute top-0 left-0">
         <div className="pt-2 pb-3">
-          <Link to="/" className={`${MOBILE_LINK} rounded-md`}>
-            <span className="ml-2">Home</span>
-          </Link>
-          <Link to="/about-us" className={`${MOBILE_LINK} rounded-md`}>
-            <span className="ml-2">About</span>
-          </Link>
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              className="flex font-600 flex-row items-center w-full px-3 py-2 mt-1 text-base text-left text-[#001017] hover:text-[#00aeef] hover:no-underline"
-            >
-              <span className="mx-2">Our Business</span>
-              <Chevron className={open ? 'rotate-180' : 'rotate-0'} />
-            </button>
-            {open && (
-              <div className="px-2 py-2 mt-2 bg-white rounded-md shadow-xs" role="menu" aria-orientation="vertical">
-                {BUSINESS_MENU.map((group) => (
-                  <MobileGroup key={group.to} group={group} />
-                ))}
+          {navbar.items.map((item, i) =>
+            item.type === 'menu' ? (
+              <div className="relative" key={`${item.label}-${i}`}>
+                <button
+                  type="button"
+                  onClick={() => setOpen((v) => !v)}
+                  className="flex font-600 flex-row items-center w-full px-3 py-2 mt-1 text-base text-left text-[#001017] hover:text-[#00aeef] hover:no-underline"
+                >
+                  <span className="mx-2">{item.label}</span>
+                  <Chevron className={open ? 'rotate-180' : 'rotate-0'} />
+                </button>
+                {open && (
+                  <div className="px-2 py-2 mt-2 bg-white rounded-md shadow-xs" role="menu" aria-orientation="vertical">
+                    {navbar.menuGroups.map((group, g) => (
+                      <MobileGroup key={`${group.label}-${g}`} group={group} />
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <Link to="/blog" className={MOBILE_LINK}>
-            <span className="ml-2">Blogs</span>
-          </Link>
-          <Link to="/career" className={MOBILE_LINK}>
-            <span className="ml-2">Career</span>
-          </Link>
-          <div className="relative">
-            <Link to="/contact-us" className={`${MOBILE_LINK} w-full text-left`}>
-              <span className="mx-2">Contact Us</span>
-            </Link>
-          </div>
+            ) : (
+              <Link key={`${item.to}-${i}`} to={item.to} className={`${MOBILE_LINK} rounded-md`}>
+                <span className="ml-2">{item.label}</span>
+              </Link>
+            )
+          )}
         </div>
       </div>
     </div>
@@ -169,6 +169,7 @@ function MobileMenu() {
  */
 export default function Header({ transparentOnTop = false }) {
   const { pathname } = useLocation();
+  const { navbar } = useSiteContent();
   const scrollThreshold = useCallback(
     () => (transparentOnTop ? document.getElementById('hero-section')?.offsetHeight ?? window.innerHeight : 450),
     [transparentOnTop],
@@ -213,8 +214,8 @@ export default function Header({ transparentOnTop = false }) {
               <div data-aos="fade-right">
                 <Link to="/">
                   <img
-                    src={overHero ? '/assets/pics/company_logo_white.jpeg' : '/assets/pics/company_logo.png'}
-                    alt="Cornerstone Medical Solutions"
+                    src={overHero ? navbar.logoWhite : navbar.logo}
+                    alt={navbar.logoAlt}
                     className="h-[80px] w-auto object-contain"
                     width="80"
                     height="80"
@@ -228,29 +229,31 @@ export default function Header({ transparentOnTop = false }) {
                   id="nav-links"
                   ref={businessRef}
                 >
-                  {MAIN_NAV.map((item) => {
-                    if (item.menu) {
+                  {navbar.items.map((item, index) => {
+                    if (item.type === 'menu') {
                       return (
                         <BusinessDropdown
-                          key={item.label}
+                          key={`${item.label}-${index}`}
+                          navbar={navbar}
                           open={businessOpen}
                           onToggle={() => setBusinessOpen((v) => !v)}
                         />
                       );
                     }
                     const active = isActive(item, pathname);
+                    const style = navStyle(item, index);
                     return (
                       <Link
-                        key={item.label}
+                        key={`${item.to}-${index}`}
                         to={item.to}
-                        className={`${DESKTOP_LINK} ${item.last ? '' : 'pr-[20px] min-[1440px]:pr-[50px]'} ${
+                        className={`${DESKTOP_LINK} ${index === navbar.items.length - 1 ? '' : 'pr-[20px] min-[1440px]:pr-[50px]'} ${
                           active ? 'text-[#00Aeef]' : 'text-[#001017]'
                         }`}
-                        data-aos={item.aos}
+                        data-aos={style.aos}
                       >
                         <span>{item.label}</span>
                         <div
-                          className={`absolute -bottom-2 ${item.dotLeft} rounded-full w-[6px] h-[6px] bg-[#00aeef] ${
+                          className={`absolute -bottom-2 ${style.dotLeft} rounded-full w-[6px] h-[6px] bg-[#00aeef] ${
                             active ? 'block' : 'hidden'
                           }`}
                         />
@@ -261,10 +264,10 @@ export default function Header({ transparentOnTop = false }) {
               </div>
               <div className={`hidden xl:block ${overHero ? 'btnCol' : ''}`} data-aos="flip-up" id="btnbook">
                 <Link
-                  to="/contact-us"
+                  to={navbar.ctaUrl}
                   className="relative flex gap-4 items-center justify-center w-[250px] h-[49px] border-[2px] border-[#2b3990] transform hover:scale-90 transition duration-500 ease-in-out hover:no-underline hover:text-[#00aeef] text-[#2b3990] text-[16px] 2xl:text-[18px]"
                 >
-                  <p className="my-auto h-7">Book A Meeting</p>
+                  <p className="my-auto h-7">{navbar.ctaLabel}</p>
                   <p className="text-xl my-auto">
                     <i className="fa-solid fa-arrow-right" />
                   </p>
@@ -300,7 +303,7 @@ export default function Header({ transparentOnTop = false }) {
             </div>
           </div>
         </div>
-        {mobileOpen && <MobileMenu />}
+        {mobileOpen && <MobileMenu navbar={navbar} />}
       </div>
     </div>
   );

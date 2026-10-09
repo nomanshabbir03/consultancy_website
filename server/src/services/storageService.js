@@ -32,14 +32,14 @@ export function detectImage(b) {
   return null;
 }
 
-export async function uploadImage(file, folder = 'blogs') {
+export async function uploadImage(file, folder = 'blogs', { cacheControl = '31536000' } = {}) {
   if (!file) throw ApiError.badRequest('Please choose an image.');
   const kind = detectImage(file.buffer);
   if (!kind) throw ApiError.badRequest('Only JPG, PNG, WebP or GIF images are allowed.');
   await ensureBucket();
   const supabase = getSupabase();
   const path = `${folder}/${new Date().getUTCFullYear()}/${crypto.randomUUID()}.${kind.ext}`;
-  const { error } = await supabase.storage.from(IMAGE_BUCKET).upload(path, file.buffer, { contentType: kind.type, cacheControl: '31536000' });
+  const { error } = await supabase.storage.from(IMAGE_BUCKET).upload(path, file.buffer, { contentType: kind.type, cacheControl });
   if (error) {
     console.error('[storage]', error.message);
     throw new ApiError(500, 'Could not store the image');
@@ -58,3 +58,42 @@ export async function removeOwnedImage(url) {
   const path = ownedPath(url);
   if (path) await getSupabase().storage.from(IMAGE_BUCKET).remove([path]).catch(() => {});
 }
+
+/** Overwrites an existing object in place (same path, so every reference keeps working). The new file must be the same image type. */
+export async function replaceImage(path, file, { cacheControl = '3600' } = {}) {
+  if (!file) throw ApiError.badRequest('Please choose an image.');
+  const kind = detectImage(file.buffer);
+  if (!kind) throw ApiError.badRequest('Only JPG, PNG, WebP or GIF images are allowed.');
+  if (!path.endsWith(`.${kind.ext}`)) throw ApiError.badRequest(`The replacement must be the same type as the current image (.${path.split('.').pop()}).`);
+  const { error } = await getSupabase().storage.from(IMAGE_BUCKET).upload(path, file.buffer, { contentType: kind.type, cacheControl, upsert: true });
+  if (error) {
+    console.error('[storage]', error.message);
+    throw new ApiError(500, 'Could not store the image');
+  }
+  return kind;
+}
+
+export async function removeObject(path) {
+  const { error } = await getSupabase().storage.from(IMAGE_BUCKET).remove([path]);
+  if (error) {
+    console.error('[storage]', error.message);
+    throw new ApiError(500, 'Could not delete the image');
+  }
+}
+
+/** Every object path in the bucket (the Storage API lists one folder at a time). */
+export async function listAllObjects(prefix = '') {
+  await ensureBucket();
+  const bucket = getSupabase().storage.from(IMAGE_BUCKET);
+  const out = [];
+  const { data, error } = await bucket.list(prefix, { limit: 1000 });
+  if (error) throw error;
+  for (const entry of data ?? []) {
+    const full = prefix ? `${prefix}/${entry.name}` : entry.name;
+    if (entry.id) out.push({ path: full, size: entry.metadata?.size ?? null, mime: entry.metadata?.mimetype ?? null });
+    else out.push(...(await listAllObjects(full)));
+  }
+  return out;
+}
+
+export const publicUrlFor = (path) => getSupabase().storage.from(IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;

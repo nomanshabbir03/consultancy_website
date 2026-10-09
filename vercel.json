@@ -37,6 +37,132 @@
       }
     },
     {
+      "source": "/",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/about-us",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/bpo",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/inbound-call",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/outbound-call",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/email-and-chat",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/sms-support",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/health-care",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/medical-billing",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/medical-transcription",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/management-services",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/digital-marketing",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/web-development",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/graphic-designing",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/ui-ux-designing",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/search-engine-optimization",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/social-media-marketing",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/content-writing",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/blog",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/career",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
+      "source": "/contact-us",
+      "destination": {
+        "service": "server"
+      }
+    },
+    {
       "source": "/blog/:slug",
       "destination": {
         "service": "server"

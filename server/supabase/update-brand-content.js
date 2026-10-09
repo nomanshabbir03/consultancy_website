@@ -43,15 +43,16 @@ for (const table of TABLES) {
 
 // Leadership team.
 const team = [
-  { match: 'Naeem Abbas', patch: { role: 'Co-founder' } },
-  { match: 'Huma Naeem', patch: { role: 'CFO' } },
+  { match: 'Naeem Abbas', patch: { role: 'Co-founder', sort_order: 1 } },
+  { match: 'Huma Naeem', patch: { role: 'CFO', sort_order: 3 } },
   {
     match: 'Danish Ather',
     patch: {
       name: 'Umer Rafique',
       role: 'Co-founder',
       bio: "Umer Rafique is a Co-founder of Cornerstone Medical Solutions, helping lead the company's growth, operations and client relationships.",
-      photo_url: '/assets/pics/team/umerrafique.jpg',
+      photo_url: '/assets/pics/team/umerrafiqueupdated.jpeg',
+      sort_order: 2,
       facebook_url: null,
       instagram_url: null,
       linkedin_url: 'https://www.linkedin.com/in/umer-rafique-925b5326b/',

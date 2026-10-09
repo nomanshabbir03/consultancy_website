@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import ContactForm from '../components/ContactForm';
-import { SOCIAL_LINKS } from '../data/navigation';
+import { useSection, useSiteContent } from '../content/SiteContent';
 
-const MAP_URL =
-  'https://www.google.com/maps?q=11-C+Judicial+Colony+Lahore+Punjab+54400&output=embed';
+const mapUrl = (address) => `https://www.google.com/maps?q=${address.trim().split(/\s+/).map(encodeURIComponent).join('+')}&output=embed`;
 
 /** Types `word` one letter at a time (80ms per letter). */
 function useTypedText(word, delay = 80) {
@@ -19,7 +18,10 @@ function useTypedText(word, delay = 80) {
 }
 
 export default function Contact() {
-  const typed = useTypedText('touch');
+  const { socialLinks } = useSiteContent();
+  const { headingPrefix, typedWord, intro } = useSection('contact-us', 'hero');
+  const map = useSection('contact-us', 'map');
+  const typed = useTypedText(typedWord);
 
   return (
     <>
@@ -40,19 +42,18 @@ export default function Contact() {
                     className="text-black text-[24px] desktop:text-[40px] font-600 relative my-0 pb-[20px]"
                     data-aos="fade-right"
                   >
-                    Let’s get in
+                    {headingPrefix}
                     <br className="md:hidden" />
-                    <div id="text" aria-label="touch">
+                    <div id="text" aria-label={typedWord}>
                       {typed}
                     </div>
                   </h1>
                   <p className="text-[14px] sm:text-[18px] text-[#001017] my-0" data-aos="fade-up">
-                    Thank you for considering Cornerstone Medical Solutions for your medical billing needs. We are here to
-                    answer any questions you may have and provide you with more information about our services.
+                    {intro}
                   </p>
                 </div>
                 <div className="flex justify-center pt-[50px] gap-[25px] sm:w-[250px]">
-                  {SOCIAL_LINKS.map((social) => (
+                  {socialLinks.map((social) => (
                     <a
                       key={social.href}
                       href={social.href}
@@ -70,7 +71,7 @@ export default function Contact() {
         </div>
       </div>
       <div className="relative">
-        <iframe src={MAP_URL} width="100%" height="580" title="Cornerstone Medical Solutions office locations" loading="lazy" />
+        <iframe src={mapUrl(map.address)} width="100%" height="580" title={map.title} loading="lazy" />
       </div>
     </>
   );

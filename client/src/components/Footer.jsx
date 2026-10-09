@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { COMPANY, FOOTER_COLUMNS, SOCIAL_LINKS } from '../data/navigation';
+import { useSiteContent } from '../content/SiteContent';
 
 const LINK_CLASS = 'hover:no-underline text-[#001017] hover:text-[#2b3990]';
 const HEADING_CLASS = 'font-600 text-[18px] sm:text-[22px] text-[#001017] pb-[24px]';
@@ -17,17 +17,18 @@ function ContactItem({ icon, children }) {
 
 /** Site footer. `background` is the colour band behind the link grid (white or #F0F6FF). */
 export default function Footer({ background = '#fff' }) {
+  const { footer, company, socialLinks } = useSiteContent();
   return (
     <div style={{ backgroundColor: background }}>
       <div className="border-t-[1px] border-[#e0e0e0]">
         <div className="mx-auto w-full col-md-9 px-[20px] py-[50px] sm:py-[100px]">
           <div className="m-auto grid grid-cols-2 md:grid-cols-9 gap-[15px] lg:gap-[20px] 2xl:gap-[30px]">
-            {FOOTER_COLUMNS.map((column) => (
-              <div key={column.title} className="md:col-span-2">
+            {footer.columns.map((column, c) => (
+              <div key={`${column.title}-${c}`} className="md:col-span-2">
                 <h2 className={HEADING_CLASS}>{column.title}</h2>
                 <ul className="text-[#001017] font-regular text-[14px] sm:text-[18px]">
-                  {column.links.map((link) => (
-                    <li key={link.to} className="mb-[10px]">
+                  {column.links.map((link, l) => (
+                    <li key={`${link.to}-${l}`} className="mb-[10px]">
                       <Link to={link.to} className={LINK_CLASS}>
                         {link.label}
                       </Link>
@@ -37,27 +38,27 @@ export default function Footer({ background = '#fff' }) {
               </div>
             ))}
             <div className="md:col-span-2 footer-contact">
-              <h2 className={HEADING_CLASS}>Contact Us</h2>
+              <h2 className={HEADING_CLASS}>{footer.contactTitle}</h2>
               <ul className="text-[#001017] font-regular text-[14px] sm:text-[18px]">
                 <ContactItem icon="fa-phone">
-                  <a href={COMPANY.phoneHref} className={LINK_CLASS}>
-                    {COMPANY.phone}
+                  <a href={company.phoneHref} className={LINK_CLASS}>
+                    {company.phone}
                   </a>
                 </ContactItem>
                 <ContactItem icon="fa-envelope">
-                  <a href={`mailto:${COMPANY.email}`} className={LINK_CLASS}>
-                    {COMPANY.email}
+                  <a href={`mailto:${company.email}`} className={LINK_CLASS}>
+                    {company.email}
                   </a>
                 </ContactItem>
                 <ContactItem icon="fa-location-dot">
-                  <a href={COMPANY.mapUrl} target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
-                    {COMPANY.address}
+                  <a href={company.mapUrl || undefined} target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+                    {company.address}
                   </a>
                 </ContactItem>
               </ul>
             </div>
             <div className="flex flex-col justify-start items-center gap-[15px] xl:gap-[20px]">
-              <img src="/assets/iso/iso-certified-color.png" alt="ISO certified" className="mx-auto" />
+              {footer.isoImage && <img src={footer.isoImage} alt={footer.isoAlt} className="mx-auto" />}
             </div>
           </div>
         </div>
@@ -66,11 +67,11 @@ export default function Footer({ background = '#fff' }) {
             <div className="md:flex text-center sm:justify-between sm:items-between ">
               <div>
                 <p className="text-[14px] sm:text-left">
-                  Copyrights © 2022 All Rights Reserved by <span className="font-semibold">Cornerstone Medical Solutions</span>
+                  {footer.copyrightPrefix} <span className="font-semibold">{footer.copyrightBrand}</span>
                 </p>
               </div>
               <div className="flex justify-center gap-[25px] sm:w-[250px] pt-[20px] md:pt-[0px]">
-                {SOCIAL_LINKS.map((social) => (
+                {socialLinks.map((social) => (
                   <a key={social.href} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
                     <i className={`fa-brands ${social.icon} ${social.size} text-[#fff] hover:text-[#00aeef]`} />
                   </a>

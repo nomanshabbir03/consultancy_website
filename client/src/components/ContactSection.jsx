@@ -1,8 +1,11 @@
+import Accent from '../content/Accent';
+import { useSection } from '../content/SiteContent';
 import ContactForm from './ContactForm';
 import ReviewsCarousel from './ReviewsCarousel';
 
 /** "Get Ready To Started?" band: inquiry form on the left, Google reviews on the right. */
 export default function ContactSection() {
+  const { heading } = useSection('home', 'contact');
   return (
     <div className="bg-[#F0F6FF] border-y-[1px] border-[#e0e0e0] relative font-poppins z-30">
       <div className="px-0 w-full grid grid-cols-12">
@@ -15,7 +18,7 @@ export default function ContactSection() {
                 style={{ fontWeight: '600' }}
                 data-aos="fade-right"
               >
-                Get Ready To <span className="text-[#00aeef]">Started?</span>
+                <Accent text={heading} />
               </p>
             </div>
             <div className="pt-[30px] sm:pt-[50px]">

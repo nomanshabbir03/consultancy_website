@@ -19,27 +19,28 @@ const absolute = (url) => (!url ? '' : /^https?:\/\//.test(url) ? url : `${SITE_
  * The canonical host comes from VITE_SITE_URL when set, otherwise from the origin the page is served on.
  * `jsonLd` is an object or array of schema.org objects that accurately describe the page.
  */
-export default function useDocumentMeta({ title, description, image, type = 'website', jsonLd } = {}) {
+export default function useDocumentMeta({ title, description, image, type = 'website', jsonLd, canonical, ogTitle, ogDescription, robots } = {}) {
   const jsonLdText = jsonLd ? JSON.stringify(jsonLd) : '';
 
   useEffect(() => {
     if (!title && !description) return;
-    const url = `${SITE_URL || window.location.origin}${window.location.pathname}`;
+    const url = canonical || `${SITE_URL || window.location.origin}${window.location.pathname}`;
     if (title) document.title = title;
     if (description) upsert('meta[name="description"]', 'meta', { name: 'description', content: description });
     upsert('link[rel="canonical"]', 'link', { rel: 'canonical', href: url });
 
     const og = { 'og:type': type, 'og:site_name': SITE_NAME, 'og:url': url };
-    if (title) og['og:title'] = title;
-    if (description) og['og:description'] = description;
+    if (ogTitle || title) og['og:title'] = ogTitle || title;
+    if (ogDescription || description) og['og:description'] = ogDescription || description;
     if (image) og['og:image'] = absolute(image);
     Object.entries(og).forEach(([property, content]) => upsert(`meta[property="${property}"]`, 'meta', { property, content }));
 
     const twitter = { 'twitter:card': image ? 'summary_large_image' : 'summary' };
-    if (title) twitter['twitter:title'] = title;
-    if (description) twitter['twitter:description'] = description;
+    if (ogTitle || title) twitter['twitter:title'] = ogTitle || title;
+    if (ogDescription || description) twitter['twitter:description'] = ogDescription || description;
     if (image) twitter['twitter:image'] = absolute(image);
     Object.entries(twitter).forEach(([name, content]) => upsert(`meta[name="${name}"]`, 'meta', { name, content }));
+    if (robots) upsert('meta[name="robots"]', 'meta', { name: 'robots', content: robots === 'noindex' ? 'noindex, follow' : 'index, follow' });
 
     // Page-level structured data replaces whatever the previous page (or the server) put there.
     document.head.querySelectorAll('script[data-seo]').forEach((node) => node.remove());
@@ -50,5 +51,5 @@ export default function useDocumentMeta({ title, description, image, type = 'web
       script.textContent = jsonLdText;
       document.head.appendChild(script);
     }
-  }, [title, description, image, type, jsonLdText]);
+  }, [title, description, image, type, jsonLdText, canonical, ogTitle, ogDescription, robots]);
 }

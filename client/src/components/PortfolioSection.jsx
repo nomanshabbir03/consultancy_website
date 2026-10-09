@@ -1,12 +1,24 @@
 import { useEffect, useState } from 'react';
+import Accent from '../content/Accent';
+import { useSection } from '../content/SiteContent';
 import { PORTFOLIO } from '../data/portfolio';
 
 const LABEL_CLASS = 'text-xl text-[#2b3990] hover:text-[#00aeef] duration-300 hover:no-underline';
 
-/** "Our Portfolio" with Web / Graphic / UI-UX tabs. `variant` picks the dataset (see data/portfolio.js). */
-export default function PortfolioSection({ variant = 'design' }) {
-  const { tabs, preview: hasPreview } = PORTFOLIO[variant];
-  const [active, setActive] = useState(0);
+/**
+ * "Our Portfolio" with Web / Graphic / UI-UX tabs. `variant` picks the preview behaviour (see data/portfolio.js);
+ * the texts, tabs and projects come from the CMS section `portfolio` of `page` (`fallback` = the built-in content).
+ */
+export default function PortfolioSection({ variant = 'design', page, fallback }) {
+  const { tabs: builtInTabs, preview: hasPreview } = PORTFOLIO[variant];
+  const content = useSection(page, 'portfolio', fallback);
+  // Image size hints belong to the design (they reserve space for the original screenshots), not to the editable content.
+  const sized = new Set(builtInTabs.flatMap((t) => t.items.filter((i) => i.sized).map((i) => i.image)));
+  const tabs = (content.tabs ?? [])
+    .filter((t) => t.visible !== false)
+    .map((t) => ({ ...t, items: (t.items ?? []).filter((i) => i.visible !== false) }));
+  const [selected, setActive] = useState(0);
+  const active = Math.min(selected, Math.max(tabs.length - 1, 0));
   const [previewImage, setPreviewImage] = useState(null);
 
   useEffect(() => {
@@ -27,10 +39,10 @@ export default function PortfolioSection({ variant = 'design' }) {
           <div className={`grids grid grid-cols-1 2xl:grid-cols-9 m-auto ${previewImage ? 'blur' : ''}`}>
             <div className="text-left xl:col-span-3">
               <p className="my-0 pb-[20px] text-[24px] sm:text-[40px] font-600 text-[#001017]" data-aos="fade-right">
-                Our <span className="text-[#00aeef]">Portfolio</span>
+                <Accent text={content.heading} />
               </p>
               <p className="my-0 text-[14px] sm:text-[18px] sm:leading-[30px] text-[#001017]" data-aos="flip-up">
-                Take a look at some of our completed projects.
+                {content.intro}
               </p>
             </div>
             <div className="grid grid-cols-3 gap-[20px] mt-[20px] sm:mt-0 xl:col-span-6" role="tablist">
@@ -68,7 +80,7 @@ export default function PortfolioSection({ variant = 'design' }) {
           </div>
           <div className={`pt-[50px] m-auto ${previewImage ? 'blur' : ''}`}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-[20px]" key={active}>
-              {tabs[active].items.map((item) => (
+              {(tabs[active]?.items ?? []).map((item) => (
                 <div key={item.image} className="child" data-aos="flip-right">
                   {hasPreview ? (
                     <button type="button" onClick={() => setPreviewImage(item.image)}>
@@ -76,7 +88,7 @@ export default function PortfolioSection({ variant = 'design' }) {
                         src={item.image}
                         alt={item.label}
                         className="xl:w-[895px] mx-auto"
-                        {...(item.sized ? { width: 460, height: 370 } : {})}
+                        {...(sized.has(item.image) ? { width: 460, height: 370 } : {})}
                       />
                     </button>
                   ) : (
@@ -84,7 +96,7 @@ export default function PortfolioSection({ variant = 'design' }) {
                       src={item.image}
                       alt={item.label}
                       className="xl:w-[895px] mx-auto"
-                      {...(item.sized ? { width: 460, height: 370 } : {})}
+                      {...(sized.has(item.image) ? { width: 460, height: 370 } : {})}
                     />
                   )}
                   <div className="bg-[#fff] mt-[20px] w-full h-[50px] py-[12px] text-center text-[#1e1e1e] border-[1px] border-[#e0e0e0]">

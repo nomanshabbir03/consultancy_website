@@ -1,3 +1,5 @@
+import Accent from '../content/Accent';
+import { useSection } from '../content/SiteContent';
 import useApiData from '../hooks/useApiData';
 import { fallbackPhoto } from '../utils/avatarFallback';
 import { fetchTeam } from '../services/siteContentService';
@@ -23,7 +25,7 @@ function SocialLink({ href, icon }) {
 
 function TeamCard({ member, index }) {
   const isUmer = member.name === 'Umer Rafique';
-  const photo = isUmer ? '/assets/pics/team/umerrafique.jpg' : member.photo;
+  const photo = member.photo;
 
   return (
     <div className="px-[16px] py-4 desktop:py-0 relative" data-aos={AOS[index % AOS.length]}>
@@ -70,6 +72,7 @@ function TeamCard({ member, index }) {
 
 /** "Meet Our Leadership" - intro band plus the team cards loaded from the API. */
 export default function TeamSection() {
+  const { heading, intro } = useSection('home', 'team');
   const { data } = useApiData(fetchTeam);
   const members = data?.data ?? [];
 
@@ -80,7 +83,7 @@ export default function TeamSection() {
           <div>
             <div className="text-center">
               <p className="text-[24px] sm:text-[40px] text-white" style={{ fontWeight: '600' }} data-aos="fade-right">
-                Meet Our Leadership
+                <Accent text={heading} />
               </p>
             </div>
             <p
@@ -88,9 +91,7 @@ export default function TeamSection() {
               style={{ fontWeight: '400' }}
               data-aos="fade-up"
             >
-              At Cornerstone Medical Solutions , we take pride in our dedicated and experienced leadership team, driving our
-              organization&apos;s success and innovation. Our leaders bring a wealth of expertise and a shared
-              commitment to our mission, vision, and values.
+              {intro}
             </p>
           </div>
         </div>

@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import Carousel from './Carousel';
-
-const PHOTOS = [8, 9, 10, 11, 13, 14].map((n) => `/assets/pics/slider/${n}.png`);
+import { useSection } from '../content/SiteContent';
 
 /**
  * "Team's wins" gallery. Desktop: accordion strip - click a collapsed photo to expand it, click the
  * expanded one to open a full-screen preview. Below 1280px: autoplaying carousel.
  */
 export default function TeamGallery() {
+  const { photos } = useSection('about-us', 'gallery');
+  const PHOTOS = photos.map((p) => p.image);
   const [active, setActive] = useState(0);
   const [preview, setPreview] = useState(null);
 
@@ -40,9 +41,9 @@ export default function TeamGallery() {
         </div>
         <div className="xl:hidden">
           <Carousel autoplay autoplaySpeed={1500} className="w-full h-auto gap-5">
-            {PHOTOS.map((src) => (
-              <div key={src} className="w-full h-auto">
-                <img src={src} alt="Team" />
+            {PHOTOS.map((src, i) => (
+              <div key={`${src}-${i}`} className="w-full h-auto">
+                <img src={src} alt={photos[i].alt} />
               </div>
             ))}
           </Carousel>

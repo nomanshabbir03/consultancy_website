@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
 /** Icon + title + blurb + "Read More" card with the three coloured corner tiles. */
-export default function ServiceCard({ icon, title, text, to }) {
+export default function ServiceCard({ icon, iconAlt = '', title, text, to }) {
   return (
     <div className="p-[20px] border-[1px] border-[#E0E0E0] relative bg-[#F0F6FF]">
       <div>
         <div className="w-[48px] h-[48px] bg-[#fff] p-1 rounded">
-          <img src={icon} alt="" />
+          <img src={icon} alt={iconAlt} />
         </div>
         <p
           className="text-[18px] sm:text-[24px] sm:leading-[30px] text-[#001017] pt-[20px] my-0"

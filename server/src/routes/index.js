@@ -5,6 +5,7 @@ import { createInquiry } from '../controllers/contactController.js';
 import { applyLimiter, contactLimiter } from '../middleware/security.js';
 import resumeUpload from '../middleware/resumeUpload.js';
 import adminRoutes from './admin.js';
+import { publicSite } from '../controllers/cmsController.js';
 import { getHealth } from '../controllers/healthController.js';
 import {
   getTestimonials,
@@ -29,6 +30,9 @@ router.get('/blog-categories', listCategories);
 router.get('/careers', listJobs);
 router.get('/careers/:id', getJob);
 router.post('/careers/:id/apply', applyLimiter, resumeUpload, applyForJob);
+
+// Published CMS content (global navbar/footer/etc. + page SEO) in one cacheable payload.
+router.get('/content/site', publicSite);
 
 router.get('/faqs', listFaqs);
 router.get('/team', listTeamMembers);

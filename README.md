@@ -159,3 +159,23 @@ Unknown routes return a JSON 404; validation problems return HTTP 400 with `erro
 - Set the Vercel project's Root Directory to this folder (the one containing `vercel.json`). Run everything locally with `vercel dev`.
 - Environment variables: `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (server only), `SITE_URL`, plus `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` (form emails to cmsolutions180@gmail.com; Gmail needs an App password). Never prefix a secret with `VITE_`.
 - Résumé uploads are limited to 4 MB because Vercel functions reject request bodies above ~4.5 MB.
+
+## CMS (Website Content admin)
+
+Content for the navbar, footer, contact details, social links, the shared call-to-action band, per-page SEO, the media
+library and FAQs / team / testimonials / success stories is managed in the admin panel (`/admin`).
+
+- Editable pages, sections and fields are declared in `server/src/cms/registry.js` (the admin forms and API validation are generated from it);
+  the built-in content the site shows until something is published is in `server/src/cms/defaults.js`.
+- Workflow: **Save draft** (visitors unaffected) -> **Preview** (opens the public site with `?cms_preview=1`, admin only) -> **Publish** / **Discard**.
+- Setup, once: run `server/supabase/migrations/20261009000000_cms.sql` in the Supabase SQL editor, then
+  `npm run db:seed-media --prefix server` to list the images that ship with the site as read-only built-in assets.
+- Tests: `npm test --prefix server` (unit + API integration tests; they use an in-memory fake database).
+- Crawler-facing SEO for every page is served by the Express app (`server/src/routes/seo.js`, routed via `vercel.json`).
+
+### Service pages (CMS)
+
+The 16 service pages (BPO 5, Healthcare 4, Digital Marketing 7) render their content through `useSection`. Their built-in content lives in
+`client/src/content/service/<slug>.js`; the editor schema and the same defaults (for the API) are in `server/src/cms/servicePages.json`
+(a test fails if the two drift). `server/scripts/gen-service-pages.mjs` is the one-time migration tool that produced them from the original
+hardcoded pages; after the migration, edit content through the admin panel, or edit the page component and the two content files together.

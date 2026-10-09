@@ -51,3 +51,9 @@ export const adminLimiter = limiter({
   limit: 300,
   message: 'Too many requests. Please slow down.',
 });
+
+export const mediaUploadLimiter = limiter({
+  windowMs: 60 * 60 * 1000,
+  limit: 120,
+  message: 'Too many uploads. Please try again later.',
+});

@@ -2,10 +2,14 @@ import { useMemo, useState } from 'react';
 import ApiState from '../components/ApiState';
 import JobCard from '../components/JobCard';
 import SearchHero from '../components/SearchHero';
+import Accent from '../content/Accent';
+import { useSection } from '../content/SiteContent';
 import useApiData from '../hooks/useApiData';
 import { fetchJobs } from '../services/careerService';
 
 export default function Career() {
+  const hero = useSection('career', 'hero');
+  const labels = useSection('career', 'list');
   const { data, loading, error } = useApiData(fetchJobs);
   const [query, setQuery] = useState('');
 
@@ -19,19 +23,19 @@ export default function Career() {
   return (
     <div className="bg-[#fff] relative z-40" id="jobsec">
       <SearchHero
-        placeholder="Search Job Here ... "
+        placeholder={hero.searchPlaceholder}
         value={query}
         onChange={setQuery}
         headingClass="pb-[20px]"
         squareInput
       >
-        Invest in your career,
-        <br className="hidden sm:block" /> <span className="text-[#00aeef]">Grow</span> with tech’s top talent.
+        {hero.headingLine1}
+        <br className="hidden sm:block" /> <Accent text={hero.headingLine2} />
       </SearchHero>
       <div className="col-md-8 mx-auto">
         <div className="w-full flex justify-start mt-[50px]">
           <p className="w-[200px] text-center py-1 md:py-2 text-md md:text-lg text-[#fff] bg-[#2b3990] font-600">
-            Jobs Available: <span className="font-normal">{loading ? '-' : jobs.length}</span>
+            {labels.countLabel} <span className="font-normal">{loading ? '-' : jobs.length}</span>
           </p>
         </div>
       </div>
@@ -46,7 +50,7 @@ export default function Career() {
         <div className="col-md-8 mx-auto text-center py-[50px]">
           <ApiState loading={loading} error={error} />
           {!loading && !error && jobs.length === 0 && (
-            <p className="text-2xl text-danger my-auto font-semibold">No jobs found</p>
+            <p className="text-2xl text-danger my-auto font-semibold">{labels.emptyText}</p>
           )}
         </div>
       )}

@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { SOCIAL_LINKS } from '../data/navigation';
-
-const FAN_LINKS = SOCIAL_LINKS.map((link, i) => ({
-  id: `${link.label.toLowerCase()}-share`,
-  cls: `icon-${i + 1}`,
-  href: link.href,
-  icon: `fab ${link.icon}`,
-}));
+import { useSiteContent } from '../content/SiteContent';
 
 /** Share icon that fans out the social links when toggled (pure CSS checkbox, as on the original). */
 export function ShareFan() {
+  const { socialLinks } = useSiteContent();
+  const FAN_LINKS = socialLinks.map((link, i) => ({
+    id: `${link.label.toLowerCase()}-share`,
+    cls: `icon-${i + 1}`,
+    href: link.href,
+    icon: `fab ${link.icon}`,
+  }));
   return (
     <div className="flex justify-center items-center mx-auto mt-[30px]">
       <div className="relative">

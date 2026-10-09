@@ -4,8 +4,14 @@ import { useAdminAuth } from './AdminAuth';
 
 const NAV = [
   { to: '/admin', label: 'Dashboard', icon: 'fa-gauge', end: true },
+  { to: '/admin/content', label: 'Website Content', icon: 'fa-pen-ruler' },
   { to: '/admin/blogs', label: 'Blogs', icon: 'fa-newspaper' },
   { to: '/admin/jobs', label: 'Jobs', icon: 'fa-briefcase' },
+  { to: '/admin/team', label: 'Team', icon: 'fa-users' },
+  { to: '/admin/testimonials', label: 'Testimonials', icon: 'fa-comment-dots' },
+  { to: '/admin/success-stories', label: 'Success Stories', icon: 'fa-circle-play' },
+  { to: '/admin/faqs', label: 'FAQs', icon: 'fa-circle-question' },
+  { to: '/admin/media', label: 'Media', icon: 'fa-images' },
   { to: '/admin/meetings', label: 'Meetings', icon: 'fa-calendar-check' },
 ];
 

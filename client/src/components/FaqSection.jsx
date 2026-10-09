@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import Accent from '../content/Accent';
+import { useSection } from '../content/SiteContent';
 import useApiData from '../hooks/useApiData';
 import { fetchFaqs } from '../services/siteContentService';
 
@@ -53,6 +55,7 @@ function FaqItem({ number, question, answer, open, onToggle }) {
 
 /** "Common Questions" accordion; the first question is open on load. */
 export default function FaqSection() {
+  const { heading, intro } = useSection('home', 'faq');
   const { data } = useApiData(fetchFaqs);
   const faqs = data?.data ?? [];
   const [selected, setSelected] = useState(0);
@@ -63,11 +66,10 @@ export default function FaqSection() {
         <div className="py-[70px] sm:py-[150px]">
           <div className="text-center">
             <p className="text-[24px] sm:text-[40px] font-600 text-[#001017] my-0">
-              Common <span className="text-[#00aeef]">Questions</span>
+              <Accent text={heading} />
             </p>
             <p className="text-[14px] sm:text-[18px] text-[#001017] pt-[20px] my-0">
-              Need help? We&apos;re here for you. Check out our Common Questions Section or send us a message via
-              contact page. Thank you.
+              {intro}
             </p>
           </div>
           <div className="pt-[50px] xl:w-[1020px] m-auto">
