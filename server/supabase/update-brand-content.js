@@ -51,7 +51,7 @@ const team = [
       name: 'Umer Rafique',
       role: 'Co-founder',
       bio: "Umer Rafique is a Co-founder of Cornerstone Medical Solutions, helping lead the company's growth, operations and client relationships.",
-      photo_url: '/assets/pics/team/umerrafiqueupdated.jpeg',
+      photo_url: '/assets/pics/team/umerrafiqueupdatedbg.png',
       sort_order: 2,
       facebook_url: null,
       instagram_url: null,
